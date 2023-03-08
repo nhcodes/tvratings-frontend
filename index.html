@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>tvratin.gs</title>
+    <meta name="description" content="find the best tv shows and generate episode rating heatmaps">
+
+    <link rel="icon" href="ico/favicon.ico"> <!-- from fonts.google.com/icons (movie filter) -->
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.3/font/bootstrap-icons.css">
+
+    <link rel="stylesheet" href="css/custom.css">
+
+</head>
+
+<body class="d-flex flex-column min-vh-100">
+
+<div id="HEADER" class="d-flex flex-column shadow-sm p-2 align-items-center text-center bg-body-tertiary">
+
+    <a class="display-5 text-reset text-decoration-none" href=".">tvratin.gs</a>
+    <span class="lead">find the best tv shows and episodes</span>
+
+</div>
+
+<div id="CONTENT" class="d-flex flex-column flex-fill">
+
+    <!-- loadSearchModule / loadShowModule -->
+
+</div>
+
+<div id="FOOTER" class="d-flex flex-column shadow-sm p-2 align-items-center text-center bg-body-tertiary">
+
+    <div class="d-flex flex-row my-1">
+        <button class="btn btn-link link-secondary" onclick="alert('todo')" title="view code on github">
+            <span class="bi bi-github"></span>
+        </button>
+        <button id="BUTTON_DARK_MODE" class="btn btn-link link-secondary" title="change theme (dark/light)">
+            <span class="bi bi-sun"></span>
+        </button>
+    </div>
+
+    <span>made by <a href="https://nh.codes/">nh.codes</a></span>
+
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN"
+        crossorigin="anonymous"></script>
+
+<script src="js/search_module.js"></script>
+<script src="js/show_module.js"></script>
+<script src="js/profile_module.js"></script>
+<script src="js/poster_module.js"></script>
+<script src="js/dialog_module.js"></script>
+<script src="js/loader_module.js"></script>
+<script src="js/utils_module.js"></script>
+
+<script>
+
+    let API_URL = "https://api.tvratin.gs:7070/";
+
+    let headerElement = document.querySelector("#HEADER");
+    let contentElement = document.querySelector("#CONTENT");
+    let footerElement = document.querySelector("#FOOTER");
+
+    let urlParameters = new URLSearchParams(window.location.search);
+    let showId = urlParameters.get("showId");
+
+    if (showId === null) {
+
+        loadSearchModule(contentElement);
+
+    } else {
+
+        loadShowModule(showId, contentElement);
+
+    }
+
+    //========== dark mode button ==========
+
+    let darkModeButtonElement = document.querySelector("#BUTTON_DARK_MODE");
+
+    darkModeButtonElement.onclick = () => {
+        let newTheme = isDarkTheme() ? "light" : "dark";
+        setCookie("theme", newTheme);
+        setTheme();
+    }
+
+    setTheme();
+
+    function isDarkTheme() {
+        return getCookie("theme", "dark") === "dark";
+    }
+
+    function setTheme() {
+        if (isDarkTheme()) {
+            document.documentElement.setAttribute("data-bs-theme", "dark");
+            darkModeButtonElement.firstElementChild.classList.add("bi-sun");
+            darkModeButtonElement.firstElementChild.classList.remove("bi-moon");
+        } else {
+            document.documentElement.setAttribute("data-bs-theme", "light");
+            darkModeButtonElement.firstElementChild.classList.add("bi-moon");
+            darkModeButtonElement.firstElementChild.classList.remove("bi-sun");
+        }
+    }
+
+</script>
+
+</body>
+
+</html>

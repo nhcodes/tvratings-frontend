@@ -1,0 +1,27 @@
+[data-bs-theme=light] {
+    --bs-body-bg: #ffffff;
+    --bs-body-bg-rgb: 255, 255, 255;
+    --bs-tertiary-bg: #f2f2f2;
+    --bs-tertiary-bg-rgb: 242, 242, 242;
+}
+
+[data-bs-theme=dark] {
+    --bs-body-bg: #171717;
+    --bs-body-bg-rgb: 23, 23, 23;
+    --bs-tertiary-bg: #202124;
+    --bs-tertiary-bg-rgb: 32, 33, 36;
+}
+
+.fixed-size-cell {
+    --cell-size: 40px;
+
+    min-width: var(--cell-size);
+    max-width: var(--cell-size);
+    width: var(--cell-size);
+
+    min-height: var(--cell-size);
+    max-height: var(--cell-size);
+    height: var(--cell-size);
+
+    padding: 0 !important;
+}

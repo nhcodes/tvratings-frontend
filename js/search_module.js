@@ -60,58 +60,36 @@ function getSearchTableHtml() {
 }
 
 function getSearchTableHeadHtml(compact) {
-    return compact ? `
+    return `
         <tr>
             <th>title</th>
             <th class="text-end">votes</th>
             <th class="text-end">rating</th>
-        </tr>
-    `
-        : `
-        <tr>
-            <th>title</th>
-            <th class="text-end">votes</th>
-            <th class="text-center">rating</th>
-            <th class="text-center">year</th>
-            <th class="text-end">duration</th>
-            <th class="text-center">genres</th>
-        </tr>
-    `
-}
-
-function getSearchTableBodyHtml(shows, compact) {
-    return `
-        ${loop(shows, (show) => `
-            ${compact ? getCompactSearchTableRowHtml(show) : getFullSearchTableRowHtml(show)}
-        `)}
-    `;
-}
-
-function getCompactSearchTableRowHtml(show) {
-    //class="text-nowrap text-truncate"
-    return `
-        <tr onclick="onClickShow('${show['showId']}')" style="cursor: pointer">
-            <td class="">${show["title"]}</td>
-            <td class="text-end">${kNumber(show["votes"])}</td>
-            <td class="text-end">${show["rating"].toFixed(1)}</td>
+            ${conditional(!compact, `
+                <th class="text-center">year</th>
+                <th class="text-end">duration</th>
+                <th class="text-center">genres</th>
+            `)}
         </tr>
     `;
 }
 
 //startYear, endYear, duration, genres can be null
 
-function getFullSearchTableRowHtml(show) {
-    let genres = show["genres"] || "";
-    genres = genres.replace(/,/g, ", ");
+function getSearchTableBodyHtml(shows, compact) {
     return `
-        <tr onclick="onClickShow('${show['showId']}')" style="cursor: pointer">
-            <td class="">${show["title"]}</td>
-            <td class="text-end">${kNumber(show["votes"])}</td>
-            <td class="text-center">${show["rating"].toFixed(1)}</td>
-            <td class="text-center">${show["startYear"] || ""} - ${show["endYear"] || ""}</td>
-            <td class="text-end">${show["duration"] || ""}</td>
-            <td class="text-center">${genres}</td>
-        </tr>
+        ${loop(shows, (show) => `
+            <tr onclick="onClickShow('${show['showId']}')" style="cursor: pointer">
+                <td class="">${show["title"]}</td>
+                <td class="text-end">${kNumber(show["votes"])}</td>
+                <td class="text-end">${show["rating"].toFixed(1)}</td>
+                ${conditional(!compact, `
+                    <td class="text-center">${show["startYear"] || ""} - ${show["endYear"] || ""}</td>
+                    <td class="text-end">${show["duration"] || ""}</td>
+                    <td class="text-center">${(show["genres"] || "").replace(/,/g, ", ")}</td>
+                `)}
+            </tr>
+        `)}
     `;
 }
 

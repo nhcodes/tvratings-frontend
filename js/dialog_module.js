@@ -18,7 +18,7 @@ function showDialog(contentHtml) {
     }
 
     let dialogHtml = getDialogHtml(contentHtml);
-    let dialogElement = getElementFromHtmlString(dialogHtml);
+    let dialogElement = parseElement(dialogHtml);
     document.body.append(dialogElement);
     let dialog = new bootstrap.Offcanvas(dialogElement);
     dialogElement.addEventListener("hidden.bs.offcanvas", event => {

@@ -23,7 +23,7 @@ function showLoader(targetElement, text, showLoader) {
     }
 
     let loaderHtml = getLoaderHtml(text, showLoader);
-    loaderElement = getElementFromHtmlString(loaderHtml);
+    loaderElement = parseElement(loaderHtml);
 
     targetElement.append(loaderElement);
 }

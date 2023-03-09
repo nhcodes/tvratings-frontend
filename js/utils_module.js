@@ -41,12 +41,6 @@ async function fetchJsonResponse(url, options) {
     return await response.json();
 }
 
-function getElementFromHtmlString(html) {
-    let template = document.createElement("div");
-    template.innerHTML = html.trim();
-    return template.firstElementChild;
-}
-
 function kNumber(number) {
     return Math.round(number / 1000) + "k";
 }

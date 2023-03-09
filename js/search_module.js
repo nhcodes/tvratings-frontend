@@ -210,24 +210,14 @@ function getSearchFiltersHtml() {
                      <label>table view</label>
                 </div>
                 
-                <div class="accordion m-1" id="ACCORDION_GENRES">
-                    <div class="accordion-item">
-                        <h2 class="accordion-header">
-                            <button class="accordion-button collapsed" data-bs-toggle="collapse" data-bs-target="#COLLAPSE_GENRES">
-                                select genres
-                            </button>
-                        </h2>
-                        <div id="COLLAPSE_GENRES" class="accordion-collapse collapse" data-bs-parent="#ACCORDION_GENRES">
-                            <div class="accordion-body">
-                            
-                                <div class="d-flex flex-row flex-wrap justify-content-center">
-                                    ${loop(getAllGenres(), (genre) => `
-                                        <button class="btn btn-outline-primary btn-sm m-1" data-bs-toggle="button" onclick="onFilterGenres(this)">${genre}</button>
-                                    `)}
-                                </div>
-                                
-                            </div>
-                        </div>
+                <!-- todo form-select w-auto p-2 hacky -->
+                <div class="form-select w-auto p-2 m-1" data-bs-toggle="collapse" data-bs-target="#COLLAPSE_GENRES">select genres</div>
+                
+                <div id="COLLAPSE_GENRES" class="collapse">
+                    <div class="d-flex flex-row flex-wrap justify-content-center">
+                            ${loop(getAllGenres(), (genre) => `
+                                <button class="btn btn-outline-primary btn-sm m-1" data-bs-toggle="button" onclick="onFilterGenres(this)">${genre}</button>
+                            `)}
                     </div>
                 </div>
             

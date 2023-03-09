@@ -10,7 +10,7 @@ function getShowPageHtml(show, episodes) {
     let years = startYear + " - " + endYear;
     //let duration = show["duration"] || "";
     let genres = show["genres"] || "";
-    genres = genres.replace(/,/g, ", ");
+    genres = genres.replace(/,/g, ", ").toLowerCase();
     let rating = show["rating"].toFixed(1);
     let votes = show["votes"];
     let episodeCount = episodes.length;

@@ -119,13 +119,13 @@ function getSearchFiltersHtml() {
                 <div class="d-flex flex-row">
             
                     <div class="form-floating m-1 w-100">
-                        <input class="form-control" placeholder="min votes" type="number"
+                        <input class="form-control" placeholder="min votes" type="number" min="0"
                             onchange="onFilter('minVotes', this.value)">
                         <label>min votes</label>
                     </div>
                 
                     <div class="form-floating m-1 w-100">
-                        <input class="form-control" placeholder="max votes" type="number"
+                        <input class="form-control" placeholder="max votes" type="number" min="0"
                             onchange="onFilter('maxVotes', this.value)">
                         <label>max votes</label>
                     </div>
@@ -135,13 +135,13 @@ function getSearchFiltersHtml() {
                 <div class="d-flex flex-row">
             
                     <div class="form-floating m-1 w-100">
-                        <input class="form-control" placeholder="min rating" type="number"
+                        <input class="form-control" placeholder="min rating" type="number" min="0" max="10"
                             onchange="onFilter('minRating', this.value)">
                         <label>min rating</label>
                     </div>
                 
                     <div class="form-floating m-1 w-100">
-                        <input class="form-control" placeholder="max rating" type="number"
+                        <input class="form-control" placeholder="max rating" type="number" min="0" max="10"
                             onchange="onFilter('maxRating', this.value)">
                         <label>max rating</label>
                     </div>
@@ -151,13 +151,13 @@ function getSearchFiltersHtml() {
                 <div class="d-flex flex-row">
             
                     <div class="form-floating m-1 w-100">
-                        <input class="form-control" placeholder="min year" type="number"
+                        <input class="form-control" placeholder="min year" type="number" min="1900" max="2100"
                             onchange="onFilter('minYear', this.value)">
                         <label>min year</label>
                     </div>
                 
                     <div class="form-floating m-1 w-100">
-                        <input class="form-control" placeholder="max year" type="number"
+                        <input class="form-control" placeholder="max year" type="number" min="1900" max="2100"
                             onchange="onFilter('maxYear', this.value)">
                         <label>max year</label>
                     </div>
@@ -167,13 +167,13 @@ function getSearchFiltersHtml() {
                 <div class="d-flex flex-row">
             
                     <div class="form-floating m-1 w-100">
-                        <input class="form-control" placeholder="min duration" type="number"
+                        <input class="form-control" placeholder="min duration" type="number" min="0"
                             onchange="onFilter('minDuration', this.value)">
                         <label>min duration</label>
                     </div>
                 
                     <div class="form-floating m-1 w-100">
-                        <input class="form-control" placeholder="max duration" type="number"
+                        <input class="form-control" placeholder="max duration" type="number" min="0"
                             onchange="onFilter('maxDuration', this.value)">
                         <label>max duration</label>
                     </div>

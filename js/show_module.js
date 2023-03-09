@@ -161,7 +161,8 @@ function getCellColor(r) {
 }
 
 function getHeatmapHtml(episodes) {
-    let [minSeasonNumber, maxSeasonNumber, minEpisodeNumber, maxEpisodeNumber, minRating, maxRating] = calculateStats(episodes);
+    let [minSeasonNumber, maxSeasonNumber, minEpisodeNumber, maxEpisodeNumber, minRatingEpisodeId, maxRatingEpisodeId] =
+        calculateStats(episodes);
 
     //generate 2d array with empty cells
 
@@ -204,7 +205,7 @@ function getHeatmapHtml(episodes) {
         let year = episode["startYear"];
         let duration = episode["duration"];
 
-        let hasBorder = rating === minRating || rating === maxRating;
+        let hasBorder = episodeId === minRatingEpisodeId || episodeId === maxRatingEpisodeId;
 
         let cellHtml = getCellHtml(episodeId, episodeTitle, seasonNumber, episodeNumber, rating, votes, year, duration, hasBorder);
 
@@ -295,13 +296,14 @@ function calculateStats(episodes) {
     let minEpisodeNumber = Number.POSITIVE_INFINITY;
     let maxEpisodeNumber = Number.NEGATIVE_INFINITY;
 
-    let minRating = Number.POSITIVE_INFINITY;
-    let maxRating = Number.NEGATIVE_INFINITY;
+    let minRatingEpisode;
+    let maxRatingEpisode;
 
     for (let episode of episodes) {
         let seasonNumber = episode["season"];
         let episodeNumber = episode["episode"];
         let rating = episode["rating"];
+        let votes = episode["votes"];
 
         if (seasonNumber < minSeasonNumber) {
             minSeasonNumber = seasonNumber;
@@ -319,15 +321,19 @@ function calculateStats(episodes) {
 
         if (rating === undefined) continue;
 
-        if (rating < minRating) {
-            minRating = rating;
+        if (minRatingEpisode === undefined ||
+            rating < minRatingEpisode["rating"] ||
+            (rating === minRatingEpisode["rating"] && votes > minRatingEpisode["votes"])) {
+            minRatingEpisode = episode;
         }
-        if (rating > maxRating) {
-            maxRating = rating;
+        if (maxRatingEpisode === undefined ||
+            rating > maxRatingEpisode["rating"] ||
+            (rating === maxRatingEpisode["rating"] && votes > maxRatingEpisode["votes"])) {
+            maxRatingEpisode = episode;
         }
 
     }
-    return [minSeasonNumber, maxSeasonNumber, minEpisodeNumber, maxEpisodeNumber, minRating, maxRating]
+    return [minSeasonNumber, maxSeasonNumber, minEpisodeNumber, maxEpisodeNumber, minRatingEpisode["episodeId"], maxRatingEpisode["episodeId"]]
 }
 
 function onClickFollow(showId) {

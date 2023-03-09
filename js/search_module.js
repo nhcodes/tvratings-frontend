@@ -212,7 +212,7 @@ function getSearchFiltersHtml(genreButtonsHtml) {
                              <option value="votes" selected>votes</option>
                              <option value="rating">rating</option>
                              <option value="title">title</option>
-                             <option value="year">year</option>
+                             <option value="startYear">year</option>
                          </select>
                          <label>sort by</label>
                     </div>

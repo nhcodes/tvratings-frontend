@@ -1,130 +1,119 @@
 //html
 
-function getShowTableHtml(showTitleHtml, showStatsHtml, showButtonsHtml, tableRowsHtml) {
+function getShowPageHtml(show, episodes) {
+
+    let showId = show["showId"];
+    let title = show["title"];
+    let escapedTitle = title.replace(/['"]/g, " "); //todo
+    let startYear = show["startYear"] || "";
+    let endYear = show["endYear"] || "";
+    let years = startYear + " - " + endYear;
+    //let duration = show["duration"] || "";
+    let genres = show["genres"] || "";
+    genres = genres.replace(/,/g, ", ");
+    let rating = show["rating"].toFixed(1);
+    let votes = show["votes"];
+    let episodeCount = episodes.length;
+
     return `
         <div class="row my-5 mx-1">
             <div class="col-auto shadow-sm rounded-4 mx-auto py-2 px-1 text-center bg-body-tertiary bg-opacity-75">
                     
-                <!-- getShowTitleHtml --->
-                ${showTitleHtml}
+                <div class="d-flex flex-column">
+                    <span class="h2 m-0">${title}</span>
+                    <span>${years}</span>
+                    <span>${genres}</span>
+                </div>
                        
                 <div class="table-responsive my-3">
-                    <table id="TABLE_RATINGS" class="table table-borderless w-auto mx-auto my-0 align-middle">
+                    <table class="table table-borderless w-auto mx-auto my-0 align-middle">
                     
                         <tr>
                             <th rowspan="999" style="width: 1px;"><span class="small">s e a s o n s</span></th>
                             <th colspan="999"><span class="small">e p i s o d e s</span></th>
                         </tr>
                         
-                        <!-- getTableRowsHtml --->
-                        ${tableRowsHtml}
+                        ${getHeatmapHtml(episodes)}
                         
                     </table>
                 </div>
                 
-                <!-- getShowStatsHtml --->
-                ${showStatsHtml}
+                <div class="d-flex flex-row">
+                    <div class="col-4">
+                        <p class="h5 m-0">${episodeCount}</p>
+                        <span>episodes</span>
+                    </div>
+                    <div class="col-4">
+                        <p class="h5 m-0">${votes}</p>
+                        <span>votes</span>
+                    </div>
+                    <div class="col-4">
+                        <p class="h5 m-0">${rating}</p>
+                        <span>rating</span>
+                    </div>
+                </div>
                 
                 <hr class="mx-4">
                 
-                <!-- getShowButtonsHtml --->
-                ${showButtonsHtml}
+                <div class="d-flex flex-row justify-content-evenly align-items-center">
+                    <button class="btn btn-link text-decoration-none"
+                     onclick="onClickFollow('${showId}')">follow</button>
+                    <button class="btn btn-link text-decoration-none"
+                     onclick="onClickViewOn('${showId}', '${escapedTitle}')">view on</button>
+                </div>
                         
             </div>
         </div>
     `;
 }
 
-function getShowTitleHtml(showId, title, years, genres) {
-    return `
-        <div class="d-flex flex-column">
-            <span class="h2 m-0">${title}</span>
-            <span>${years}</span>
-            <span>${genres}</span>
-        </div>
-    `;
-}
-
-function getShowStatsHtml(rating, votes, episodeCount) {
-    return `
-        <div class="d-flex flex-row">
-            <div class="col-4">
-                <p class="h5 m-0">${episodeCount}</p>
-                <span>episodes</span>
-            </div>
-            <div class="col-4">
-                <p class="h5 m-0">${votes}</p>
-                <span>votes</span>
-            </div>
-            <div class="col-4">
-                <p class="h5 m-0">${rating.toFixed(1)}</p>
-                <span>rating</span>
-            </div>
-        </div>
-    `;
-}
-
-function getShowButtonsHtml(showId, title) {
-    title = title.replace(/['"]/g, " "); //escape ' and " todo
-    return `
-        <div class="d-flex flex-row justify-content-evenly align-items-center">
-            <button class="btn btn-link text-decoration-none"
-             onclick="onClickFollow('${showId}')">follow</button>
-            <button class="btn btn-link text-decoration-none"
-             onclick="onClickViewOn('${showId}', '${title}')">view on</button>
-        </div>
-    `;
-}
-
-function onClickFollow(showId) {
-    loadProfileModule(showId);
-}
-
-function onClickViewOn(showId, title) {
-    showDialog(getShowLinksHtml(showId, title));
-}
-
 function getShowLinksHtml(showId, title) {
     let encodedTitle = encodeURIComponent(title);
+    let sites = [
+        {
+            "url": `https://imdb.com/title/${showId}`,
+            "image": "img/imdb.png",
+            "name": "IMDb",
+            "description": "more information and ratings"
+        },
+        {
+            "url": `https://rottentomatoes.com/search?search=${encodedTitle}`,
+            "image": "img/rottentomatoes.png",
+            "name": "Rotten Tomatoes",
+            "description": "more information and ratings"
+        },
+        {
+            "url": `https://www.youtube.com/results?search_query=${encodedTitle}`,
+            "image": "img/youtube.png",
+            "name": "YouTube",
+            "description": "trailers and video clips"
+        },
+        {
+            "url": `https://justwatch.com/us/search?q=${encodedTitle}`,
+            "image": "img/justwatch.png",
+            "name": "JustWatch",
+            "description": "find streaming services"
+        },
+        {
+            "url": `https://cse.google.com/cse?cx=85e5c34b68dd64114&q=${encodedTitle}`,
+            "image": "img/google.png",
+            "name": "Google Custom Search",
+            "description": "find streaming services"
+        },
+    ];
     return `
         <div class="d-flex flex-column">
             <span class="text-center my-2">view on</span>
             <div class="list-group list-group-flush">
-                <a class="list-group-item list-group-item-action d-flex flex-row" href="https://imdb.com/title/${showId}" target="_blank">
-                    <img class="rounded-circle m-auto" src="img/imdb.png" alt="favicon" style="width: 32px; height: 32px">
-                    <div class="d-flex flex-column flex-fill ms-3">
-                        <span>IMDb</span>
-                        <span class="small">information and ratings</span>
-                    </div>
-                </a>
-                <a class="list-group-item list-group-item-action d-flex flex-row" href="https://rottentomatoes.com/search?search=${encodedTitle}" target="_blank">
-                    <img class="rounded-circle m-auto" src="img/rt.png" alt="favicon" style="width: 32px; height: 32px">
-                    <div class="d-flex flex-column flex-fill ms-3">
-                        <span>Rotten Tomatoes</span>
-                        <span class="small">information and ratings</span>
-                    </div>
-                </a>
-                <a class="list-group-item list-group-item-action d-flex flex-row" href="https://www.youtube.com/results?search_query=${encodedTitle}" target="_blank">
-                    <img class="rounded-circle m-auto" src="img/yt.png" alt="favicon" style="width: 32px; height: 32px">
-                    <div class="d-flex flex-column flex-fill ms-3">
-                        <span>YouTube</span>
-                        <span class="small">trailers and other video clips</span>
-                    </div>
-                </a>
-                <a class="list-group-item list-group-item-action d-flex flex-row" href="https://justwatch.com/us/search?q=${encodedTitle}" target="_blank">
-                    <img class="rounded-circle m-auto" src="img/jw.png" alt="favicon" style="width: 32px; height: 32px">
-                    <div class="d-flex flex-column flex-fill ms-3">
-                        <span>JustWatch</span>
-                        <span class="small">streaming services</span>
-                    </div>
-                </a>
-                <a class="list-group-item list-group-item-action d-flex flex-row" href="https://cse.google.com/cse?cx=85e5c34b68dd64114&q=${encodedTitle}" target="_blank">
-                    <img class="rounded-circle m-auto" src="img/g.png" alt="favicon" style="width: 32px; height: 32px">
-                    <div class="d-flex flex-column flex-fill ms-3">
-                        <span>Google Custom Search</span>
-                        <span class="small">streaming services</span>
-                    </div>
-                </a>
+                ${loop(sites, (site) => `
+                    <a class="list-group-item list-group-item-action d-flex flex-row" href="${site.url}" target="_blank">
+                        <img class="rounded-circle m-auto" src="${site.image}" alt="favicon" style="width: 32px; height: 32px">
+                        <div class="d-flex flex-column flex-fill ms-3">
+                            <span>${site.name}</span>
+                            <span class="small">${site.description}</span>
+                        </div>
+                    </a>
+                `)}
             </div>
         </div>
     `;
@@ -171,8 +160,8 @@ function getCellColor(r) {
     return "hsl(" + h + ",100%," + l + "%)";
 }
 
-function getTableRowsHtml(episodes, stats) {
-    let [minSeasonNumber, maxSeasonNumber, minEpisodeNumber, maxEpisodeNumber, minRating, maxRating] = stats;
+function getHeatmapHtml(episodes) {
+    let [minSeasonNumber, maxSeasonNumber, minEpisodeNumber, maxEpisodeNumber, minRating, maxRating] = calculateStats(episodes);
 
     //generate 2d array with empty cells
 
@@ -262,46 +251,19 @@ function loadShowModule(showId, contentElement) {
         let episodes = response["episodes"];
 
         let title = show["title"];
-        let startYear = show["startYear"] || "";
-        let endYear = show["endYear"] || "";
-        let duration = show["duration"] || "";
-        let genres = show["genres"] || "";
-        let rating = show["rating"];
-        let votes = show["votes"];
 
-        genres = genres.replace(/,/g, ", ");
-
-        document.title = title + " | " + document.title;
-        let description = "episode rating heatmap for " + title.replace(/['"]/g, " ");
+        //set title & description
+        document.title = `${title} | tvratin.gs`;
+        let description = `find the top rated episodes from the tv show '${title.replace(/['"]/g, " ")}' using our episode rating heatmaps.`;
         document.querySelector("meta[name='description']").setAttribute("content", description);
 
+        //include title in url
         let url = new URL(window.location.href);
         url.searchParams.set("title", title.replace(/\W/g, "-"));
         window.history.replaceState(null, null, url);
 
-        let titleHtml = getShowTitleHtml(
-            showId,
-            title,
-            startYear + " - " + endYear,
-            genres,
-        );
-
-        let statsHtml = getShowStatsHtml(
-            rating,
-            votes,
-            episodes.length
-        );
-
-        let buttonsHtml = getShowButtonsHtml(
-            showId,
-            title
-        );
-
-        let stats = calculateStats(episodes);
-        let tableRowsHtml = getTableRowsHtml(episodes, stats);
-
-        let tableHtml = getShowTableHtml(titleHtml, statsHtml, buttonsHtml, tableRowsHtml);
-        let tableElement = getElementFromHtmlString(tableHtml);
+        let showPageHtml = getShowPageHtml(show, episodes);
+        let showPageElement = parseElement(showPageHtml);
 
         getPosterFromImdb(showId, image => {
 
@@ -309,18 +271,18 @@ function loadShowModule(showId, contentElement) {
                 return;
             }
 
-            let style = tableElement.parentElement.style;
+            let style = showPageElement.parentElement.style;
             style.backgroundImage = "url('" + image + "')";
             style.backgroundSize = "contain"; //cover
 
         });
 
         //enable popovers
-        tableElement.querySelectorAll("[data-bs-toggle='popover']").forEach(element => {
+        showPageElement.querySelectorAll("[data-bs-toggle='popover']").forEach(element => {
             new bootstrap.Popover(element);
         });
 
-        contentElement.append(tableElement);
+        contentElement.append(showPageElement);
 
     });
 
@@ -366,4 +328,12 @@ function calculateStats(episodes) {
 
     }
     return [minSeasonNumber, maxSeasonNumber, minEpisodeNumber, maxEpisodeNumber, minRating, maxRating]
+}
+
+function onClickFollow(showId) {
+    loadProfileModule(showId);
+}
+
+function onClickViewOn(showId, title) {
+    showDialog(getShowLinksHtml(showId, title));
 }

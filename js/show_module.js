@@ -333,7 +333,11 @@ function calculateStats(episodes) {
         }
 
     }
-    return [minSeasonNumber, maxSeasonNumber, minEpisodeNumber, maxEpisodeNumber, minRatingEpisode["episodeId"], maxRatingEpisode["episodeId"]]
+
+    //todo https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Optional_chaining
+    let minRatingEpisodeId = minRatingEpisode !== undefined ? minRatingEpisode["episodeId"] : undefined;
+    let maxRatingEpisodeId = maxRatingEpisode !== undefined ? maxRatingEpisode["episodeId"] : undefined;
+    return [minSeasonNumber, maxSeasonNumber, minEpisodeNumber, maxEpisodeNumber, minRatingEpisodeId, maxRatingEpisodeId]
 }
 
 //listeners

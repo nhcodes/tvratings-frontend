@@ -112,7 +112,7 @@ function getSearchFiltersHtml() {
             
                 <div class="form-floating m-1">
                     <input class="form-control" placeholder="search for title" type="text"
-                        onchange="onFilter('titleSearch', this.value)">
+                        oninput="onFilter('titleSearch', this.value)">
                     <label>search for title</label>
                 </div>
                 
@@ -120,13 +120,13 @@ function getSearchFiltersHtml() {
             
                     <div class="form-floating m-1 w-100">
                         <input class="form-control" placeholder="min votes" type="number" min="0"
-                            onchange="onFilter('minVotes', this.value)">
+                            oninput="onFilter('minVotes', this.value)">
                         <label>min votes</label>
                     </div>
                 
                     <div class="form-floating m-1 w-100">
                         <input class="form-control" placeholder="max votes" type="number" min="0"
-                            onchange="onFilter('maxVotes', this.value)">
+                            oninput="onFilter('maxVotes', this.value)">
                         <label>max votes</label>
                     </div>
                 
@@ -136,13 +136,13 @@ function getSearchFiltersHtml() {
             
                     <div class="form-floating m-1 w-100">
                         <input class="form-control" placeholder="min rating" type="number" min="0" max="10"
-                            onchange="onFilter('minRating', this.value)">
+                            oninput="onFilter('minRating', this.value)">
                         <label>min rating</label>
                     </div>
                 
                     <div class="form-floating m-1 w-100">
                         <input class="form-control" placeholder="max rating" type="number" min="0" max="10"
-                            onchange="onFilter('maxRating', this.value)">
+                            oninput="onFilter('maxRating', this.value)">
                         <label>max rating</label>
                     </div>
                 
@@ -152,13 +152,13 @@ function getSearchFiltersHtml() {
             
                     <div class="form-floating m-1 w-100">
                         <input class="form-control" placeholder="min year" type="number" min="1900" max="2100"
-                            onchange="onFilter('minYear', this.value)">
+                            oninput="onFilter('minYear', this.value)">
                         <label>min year</label>
                     </div>
                 
                     <div class="form-floating m-1 w-100">
                         <input class="form-control" placeholder="max year" type="number" min="1900" max="2100"
-                            onchange="onFilter('maxYear', this.value)">
+                            oninput="onFilter('maxYear', this.value)">
                         <label>max year</label>
                     </div>
                 
@@ -168,13 +168,13 @@ function getSearchFiltersHtml() {
             
                     <div class="form-floating m-1 w-100">
                         <input class="form-control" placeholder="min duration" type="number" min="0"
-                            onchange="onFilter('minDuration', this.value)">
+                            oninput="onFilter('minDuration', this.value)">
                         <label>min duration</label>
                     </div>
                 
                     <div class="form-floating m-1 w-100">
                         <input class="form-control" placeholder="max duration" type="number" min="0"
-                            onchange="onFilter('maxDuration', this.value)">
+                            oninput="onFilter('maxDuration', this.value)">
                         <label>max duration</label>
                     </div>
                 
@@ -312,11 +312,17 @@ function getAllGenres() {
 // listeners
 
 function onFilter(key, value) {
+
     if (value === "") value = null;
-    console.log(key + " -> " + value);
     parameters[key] = value;
-    parameters.pageNumber = 0;
-    updateSearchTable();
+    console.log(key + " -> " + value);
+
+    debounce(() => {
+
+        parameters.pageNumber = 0;
+        updateSearchTable();
+
+    }, 1000);
 }
 
 function onChangeType(element, newType) {

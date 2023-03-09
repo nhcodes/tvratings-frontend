@@ -41,6 +41,13 @@ async function fetchJsonResponse(url, options) {
     return await response.json();
 }
 
+let timeout;
+
+function debounce(callback, wait) {
+    clearTimeout(timeout);
+    timeout = setTimeout(callback, wait);
+}
+
 function kNumber(number) {
     return Math.round(number / 1000) + "k";
 }

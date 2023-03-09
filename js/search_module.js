@@ -1,17 +1,15 @@
 //html
 
-function getSearchPageHtml(searchTableHtml, searchFiltersHtml) {
+function getSearchPageHtml() {
     return `
         <div class="row my-3 mx-1">
         
             <div class="col-12 col-sm-10 col-md-7 col-xl-7 col-xxl-6 mx-auto p-0">
-                <!-- getSearchTableHtml --->
-                ${searchTableHtml}
+                ${getSearchTableHtml()}
             </div>
         
             <div class="col-12 col-sm-10 col-md-5 col-xl-4 col-xxl-2 mx-auto p-0">
-                <!-- getSearchFiltersHtml --->
-                ${searchFiltersHtml}
+                ${getSearchFiltersHtml()}
             </div>
         
         </div>
@@ -82,12 +80,11 @@ function getSearchTableHeadHtml(compact) {
 }
 
 function getSearchTableBodyHtml(shows, compact) {
-    let html = "";
-    for (let show of shows) {
-        let rowHtml = compact ? getCompactSearchTableRowHtml(show) : getFullSearchTableRowHtml(show);
-        html += rowHtml;
-    }
-    return html;
+    return `
+        ${loop(shows, (show) => `
+            ${compact ? getCompactSearchTableRowHtml(show) : getFullSearchTableRowHtml(show)}
+        `)}
+    `;
 }
 
 function getCompactSearchTableRowHtml(show) {
@@ -118,7 +115,7 @@ function getFullSearchTableRowHtml(show) {
     `;
 }
 
-function getSearchFiltersHtml(genreButtonsHtml) {
+function getSearchFiltersHtml() {
     return `
         <div class="d-flex flex-column shadow-sm rounded-4 m-2 bg-body-tertiary">
         
@@ -246,8 +243,9 @@ function getSearchFiltersHtml(genreButtonsHtml) {
                             <div class="accordion-body">
                             
                                 <div class="d-flex flex-row flex-wrap justify-content-center">
-                                    <!-- getGenreButtonsHtml --->
-                                    ${genreButtonsHtml}
+                                    ${loop(getAllGenres(), (genre) => `
+                                        <button class="btn btn-outline-primary btn-sm m-1" data-bs-toggle="button" onclick="onFilterGenres(this)">${genre}</button>
+                                    `)}
                                 </div>
                                 
                             </div>
@@ -259,16 +257,6 @@ function getSearchFiltersHtml(genreButtonsHtml) {
             
         </div>
     `;
-}
-
-function getGenreButtonsHtml(genres) {
-    let html = "";
-    for (let genre of genres) {
-        html += `
-            <button class="btn btn-outline-primary btn-sm m-1" data-bs-toggle="button" onclick="onFilterGenres(this)">${genre}</button>
-        `;
-    }
-    return html;
 }
 
 //js
@@ -301,15 +289,8 @@ let pageNumberTextElement;
 
 function loadSearchModule(contentElement) {
 
-    let tableHtml = getSearchTableHtml();
-
-    let allGenres = getAllGenres();
-    let genreButtonsHtml = getGenreButtonsHtml(allGenres);
-
-    let filtersHtml = getSearchFiltersHtml(genreButtonsHtml);
-
-    let pageHtml = getSearchPageHtml(tableHtml, filtersHtml);
-    let pageElement = getElementFromHtmlString(pageHtml);
+    let pageHtml = getSearchPageHtml();
+    let pageElement = parseElement(pageHtml);
 
     searchTableCardElement = pageElement.querySelector("#TABLE_SEARCH_CARD");
     searchTableHeadElement = pageElement.querySelector("#TABLE_SEARCH_HEAD");
@@ -355,6 +336,11 @@ function updateSearchTable() {
     });
 }
 
+function getAllGenres() {
+    return ["Action", "Adult", "Adventure", "Animation", "Biography", "Comedy", "Crime", "Documentary", "Drama", "Family", "Fantasy", "Film-Noir", "Game-Show", "History", "Horror", "Music", "Musical", "Mystery", "News", "Reality-TV", "Romance", "Sci-Fi", "Short", "Sport", "Talk-Show", "Thriller", "War", "Western"]
+        .map(g => g.toLowerCase());
+}
+
 // listeners
 
 function onFilter(key, value) {
@@ -396,9 +382,4 @@ function onChangePage(element, count) {
 
 function onClickShow(showId) {
     window.open(`?showId=${showId}`);
-}
-
-function getAllGenres() {
-    return ["Action", "Adult", "Adventure", "Animation", "Biography", "Comedy", "Crime", "Documentary", "Drama", "Family", "Fantasy", "Film-Noir", "Game-Show", "History", "Horror", "Music", "Musical", "Mystery", "News", "Reality-TV", "Romance", "Sci-Fi", "Short", "Sport", "Talk-Show", "Thriller", "War", "Western"]
-        .map(g => g.toLowerCase());
 }

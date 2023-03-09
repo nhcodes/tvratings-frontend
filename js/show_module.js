@@ -336,6 +336,8 @@ function calculateStats(episodes) {
     return [minSeasonNumber, maxSeasonNumber, minEpisodeNumber, maxEpisodeNumber, minRatingEpisode["episodeId"], maxRatingEpisode["episodeId"]]
 }
 
+//listeners
+
 function onClickFollow(showId) {
     loadProfileModule(showId);
 }

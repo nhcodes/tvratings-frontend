@@ -254,7 +254,7 @@ function loadShowModule(showId, contentElement) {
         let title = show["title"];
 
         //set title & description
-        document.title = `${title} | tvratin.gs`;
+        document.title = `${title} — tvratin.gs`;
         let description = `find the top rated episodes from the tv show '${title.replace(/['"]/g, " ")}' using our episode rating heatmaps.`;
         document.querySelector("meta[name='description']").setAttribute("content", description);
 

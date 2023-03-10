@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-bs-theme="dark">
 
 <head>
 
@@ -8,7 +8,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
     <title>tvratin.gs — find tv's best</title>
-    <meta name="description" content="find the best tv shows using our advanced search and generate episode rating heatmaps.">
+    <meta name="description"
+          content="find the best tv shows using our advanced search and generate episode rating heatmaps.">
 
     <link rel="icon" href="ico/favicon.ico"> <!-- from fonts.google.com/icons (movie filter) -->
 
@@ -43,10 +44,10 @@
             <span class="bi bi-github"></span>
         </button>
         <button id="BUTTON_DARK_MODE" class="btn btn-link link-secondary" title="change theme (dark/light)">
-            <span class="bi bi-sun"></span>
+            <span class="bi"></span>
         </button>
-        <button class="btn btn-link link-secondary" onclick="onClickDesktopModeButton()" title="toggle desktop mode">
-            <span class="bi bi-pc-display"></span>
+        <button id="BUTTON_DESKTOP_MODE" class="btn btn-link link-secondary" title="toggle desktop mode">
+            <span class="bi"></span>
         </button>
     </div>
 
@@ -94,17 +95,6 @@
         window.open('https://github.com/nhcodes/tvratings-frontend')
     }
 
-    //========== desktop mode button ==========
-
-    let test = ["width=1024", "width=device-width, initial-scale=1", "width=device-width, initial-scale=0.1", "width=device-width, initial-scale=1", "", "width=device-width, initial-scale=1"]
-
-    let testIndex = 0;
-
-    function onClickDesktopModeButton() {
-        document.querySelector("meta[name='viewport']").content = test[testIndex];
-        testIndex++;
-    }
-
     //========== dark mode button ==========
 
     let darkModeButtonElement = document.querySelector("#BUTTON_DARK_MODE");
@@ -122,14 +112,44 @@
     }
 
     function setTheme() {
+        let buttonIconClass = darkModeButtonElement.firstElementChild.classList;
         if (isDarkTheme()) {
             document.documentElement.setAttribute("data-bs-theme", "dark");
-            darkModeButtonElement.firstElementChild.classList.add("bi-sun");
-            darkModeButtonElement.firstElementChild.classList.remove("bi-moon");
+            buttonIconClass.add("bi-sun");
+            buttonIconClass.remove("bi-moon");
         } else {
             document.documentElement.setAttribute("data-bs-theme", "light");
-            darkModeButtonElement.firstElementChild.classList.add("bi-moon");
-            darkModeButtonElement.firstElementChild.classList.remove("bi-sun");
+            buttonIconClass.add("bi-moon");
+            buttonIconClass.remove("bi-sun");
+        }
+    }
+
+    //========== desktop mode button ==========
+
+    let desktopModeButtonElement = document.querySelector("#BUTTON_DESKTOP_MODE");
+
+    desktopModeButtonElement.onclick = () => {
+        let newMode = isDesktopMode() ? "false" : "true";
+        setCookie("desktopMode", newMode);
+        setDesktopMode()
+    }
+
+    setDesktopMode()
+
+    function isDesktopMode() {
+        return getCookie("desktopMode", "false") === "true";
+    }
+
+    function setDesktopMode() {
+        let buttonIconClass = desktopModeButtonElement.firstElementChild.classList;
+        if (isDesktopMode()) {
+            document.querySelector("meta[name='viewport']").content = "width=device-width, initial-scale=1";
+            buttonIconClass.add("bi-pc-display");
+            buttonIconClass.remove("bi-phone");
+        } else {
+            document.querySelector("meta[name='viewport']").content = "";
+            buttonIconClass.add("bi-phone");
+            buttonIconClass.remove("bi-pc-display");
         }
     }
 

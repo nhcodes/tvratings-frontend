@@ -254,7 +254,7 @@ function loadShowModule(showId, contentElement) {
         let title = show["title"];
 
         //set title & description
-        document.title = `${title} — tvratin.gs`;
+        document.title = `${title} - tvratin.gs`;
         let description = `find the top rated episodes from the tv show '${title.replace(/['"]/g, " ")}' using our episode rating heatmaps.`;
         document.querySelector("meta[name='description']").setAttribute("content", description);
 
@@ -296,8 +296,8 @@ function calculateStats(episodes) {
     let minEpisodeNumber = Number.POSITIVE_INFINITY;
     let maxEpisodeNumber = Number.NEGATIVE_INFINITY;
 
-    let minRatingEpisode;
-    let maxRatingEpisode;
+    let minRatingEpisode = undefined;
+    let maxRatingEpisode = undefined;
 
     for (let episode of episodes) {
         let seasonNumber = episode["season"];

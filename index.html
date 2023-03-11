@@ -144,14 +144,15 @@
 
     function setDesktopMode() {
         let buttonIconClass = desktopModeButtonElement.firstElementChild.classList;
+        let viewportMeta = document.querySelector("meta[name='viewport']");
         if (isDesktopMode()) {
-            document.querySelector("meta[name='viewport']").content = "width=device-width, initial-scale=1";
-            buttonIconClass.add("bi-pc-display");
-            buttonIconClass.remove("bi-phone");
-        } else {
-            document.querySelector("meta[name='viewport']").content = "";
+            viewportMeta.content = "";
             buttonIconClass.add("bi-phone");
             buttonIconClass.remove("bi-pc-display");
+        } else {
+            viewportMeta.content = "width=device-width, initial-scale=1";
+            buttonIconClass.add("bi-pc-display");
+            buttonIconClass.remove("bi-phone");
         }
     }
 

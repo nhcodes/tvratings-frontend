@@ -72,7 +72,7 @@
 
 <script>
 
-    let API_URL = "http://localhost:7070/";//"https://api.tvratin.gs:7070/"; //
+    let API_URL = "https://api.tvratin.gs:7070/"; //"http://localhost:7070/";//
 
     let headerElement = document.querySelector("#HEADER");
     let contentElement = document.querySelector("#CONTENT");
@@ -144,15 +144,14 @@
 
     function setDesktopMode() {
         let buttonIconClass = desktopModeButtonElement.firstElementChild.classList;
-        let viewportMeta = document.querySelector("meta[name='viewport']");
         if (isDesktopMode()) {
-            viewportMeta.content = "";
-            buttonIconClass.add("bi-phone");
-            buttonIconClass.remove("bi-pc-display");
-        } else {
-            viewportMeta.content = "width=device-width, initial-scale=1";
+            document.querySelector("meta[name='viewport']").content = "width=device-width, initial-scale=1";
             buttonIconClass.add("bi-pc-display");
             buttonIconClass.remove("bi-phone");
+        } else {
+            document.querySelector("meta[name='viewport']").content = "";
+            buttonIconClass.add("bi-phone");
+            buttonIconClass.remove("bi-pc-display");
         }
     }
 

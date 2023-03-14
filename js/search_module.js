@@ -280,10 +280,10 @@ function updateSearchTable() {
 
     showLoader(searchTableCardElement, "", true);
 
-    getJson(url, (success, response) => {
+    getJson(url, (status, response) => {
 
-        if (!success) {
-            showLoader(searchTableCardElement, "error: " + response.toLowerCase(), false);
+        if (status !== 200) {
+            showLoader(searchTableCardElement, "error: " + response["error"].toLowerCase(), false);
             return;
         }
 

@@ -1,6 +1,6 @@
 //html
 
-function getProfileLoginHtml() {
+function getLoginHtml() {
     return `
         <div class="d-flex flex-column mx-auto">
         
@@ -8,23 +8,29 @@ function getProfileLoginHtml() {
             
             <div class="mb-3">
                 <span class="form-label">email address</span>
-                <input id="INPUT_PROFILE_EMAIL" type="email" class="form-control" placeholder="email@example.com">
-                <span id="INPUT_PROFILE_EMAIL_FEEDBACK"></span>
+                <input id="INPUT_LOGIN_EMAIL" type="email" class="form-control" placeholder="email@example.com">
             </div>
             
             <div class="mb-3 d-none">
                 <span class="form-label">verification code</span>
-                <input id="INPUT_PROFILE_CODE" type="text" class="form-control" placeholder="ABC123">
-                <span id="INPUT_PROFILE_CODE_FEEDBACK"></span>
+                <input id="INPUT_LOGIN_CODE" type="text" class="form-control" placeholder="ABC123">
             </div>
             
-            <button id="BUTTON_PROFILE_SUBMIT" class="btn btn-primary m-3">next</button>
+            <div class="d-flex justify-content-center mb-3">
+                <div id="INPUT_LOGIN_RECAPTCHA"></div>
+            </div>
+            
+            <div class="small mb-3">
+                <span id="TEXT_LOGIN_ERROR"></span>
+            </div>
+            
+            <button id="BUTTON_LOGIN_SUBMIT" class="btn btn-primary mb-3">next</button>
             
         </div>
     `;
 }
 
-function getProfilePageHtml() {
+function getFollowListHtml(shows) {
     return `
         <div class="d-flex flex-column">
         
@@ -32,97 +38,71 @@ function getProfilePageHtml() {
             
             <span class="ms-2">followed shows:</span>
             
-            <div id="LIST_FOLLOWS" class="list-group list-group-flush overflow-y-auto" style="max-height: 300px">
-                <!-- getFollowsListHtml -->
+            <div class="list-group list-group-flush overflow-y-auto" style="max-height: 300px">
+            
+                ${loop(shows, (show) => `
+                    <a class="list-group-item list-group-item-action d-flex flex-row align-items-center" href="?showId=${show["showId"]}" target="_blank">
+                        <span class="flex-fill">${show["title"]}</span>
+                        <button class="btn btn-link link-secondary" onclick="follow('${show["showId"]}', false);return false">
+                            <span class="bi bi-x"></span>
+                        </button>
+                    </a>
+                `)}
+                
             </div>
             
         </div>
     `;
 }
 
-function getFollowsListHtml(shows) {
-    let html = "";
-    for (let show of shows) {
-        html += getFollowsListRowHtml(show);
-
-    }
-    return html;
-}
-
-function getFollowsListRowHtml(show) {
-    return `
-        <a class="list-group-item list-group-item-action d-flex flex-row align-items-center" href="?showId=${show["showId"]}" target="_blank">
-            <span class="flex-fill">${show["title"]}</span>
-            <button class="btn btn-link link-secondary" onclick="unfollow('${show["showId"]}');return false">
-                <span class="bi bi-x"></span>
-            </button>
-        </a>
-    `;
-}
-
 //js
-
-function loadProfileModule(showId) {
-    let url = API_URL + "follow?showId=" + showId + "&follow=true";
-
-    getJson(url, (success, response) => {
-
-        if (!success) {//todo
-            showLoader(document.body, "error: " + response.toLowerCase(), false);
-            return;
-        }
-
-        if (!Array.isArray(response)) {
-            loadProfileLoginModule(showId);
-        } else {
-            loadProfilePageModule(response);
-        }
-
-    });
-}
-
-function loadProfilePageModule(shows) {
-    let profilePageHtml = getProfilePageHtml();
-    let dialogElement = showDialog(profilePageHtml);
-
-    let followsList = dialogElement.querySelector("#LIST_FOLLOWS");
-    followsList.innerHTML = getFollowsListHtml(shows);
-}
 
 const emailRegex = new RegExp("\\S+@\\S+\\.\\S+");
 const codeRegex = new RegExp("\\w{6}");
 
-function loadProfileLoginModule(showId) {
-    let profileLoginHtml = getProfileLoginHtml();
-    let dialogElement = showDialog(profileLoginHtml);
+function showLogin(showId) {
+    let loginHtml = getLoginHtml();
+    let dialogElement = showDialog(loginHtml);
 
-    let emailInput = dialogElement.querySelector("#INPUT_PROFILE_EMAIL");
-    let emailInputFeedback = dialogElement.querySelector("#INPUT_PROFILE_EMAIL_FEEDBACK");
+    let emailInput = dialogElement.querySelector("#INPUT_LOGIN_EMAIL");
+    let codeInput = dialogElement.querySelector("#INPUT_LOGIN_CODE");
+    let recaptchaInput = dialogElement.querySelector("#INPUT_LOGIN_RECAPTCHA");
+    let submitButton = dialogElement.querySelector("#BUTTON_LOGIN_SUBMIT");
+    let errorText = dialogElement.querySelector("#TEXT_LOGIN_ERROR");
 
-    let codeInput = dialogElement.querySelector("#INPUT_PROFILE_CODE");
-    let codeInputFeedback = dialogElement.querySelector("#INPUT_PROFILE_CODE_FEEDBACK");
-
-    let submitButton = dialogElement.querySelector("#BUTTON_PROFILE_SUBMIT");
+    let recaptchaId = grecaptcha.render(recaptchaInput, {
+        "sitekey": "6LfM8_okAAAAAELhbiyl9DBoKs9HMMIvv98Z_FNs",
+        "theme": isDarkTheme() ? "dark" : "light"
+    });
 
     submitButton.onclick = () => {
 
         let email = emailInput.value;
         let isEmailValid = emailRegex.test(email);
         if (!isEmailValid) {
-            validateInput(emailInput, emailInputFeedback, false, "please enter a valid email");
+            validateInput(errorText, false, "please enter a valid email");
             return;
         }
 
+        let recaptchaResponse = grecaptcha.getResponse(recaptchaId);
+        console.log("recaptchaResponse: " + recaptchaResponse);
+        if (!recaptchaResponse) {
+            validateInput(errorText, false, "please verify that you're not a bot");
+            return;
+        }
+
+        grecaptcha.reset(recaptchaId);
+
         if (codeInput.parentElement.classList.contains("d-none")) {
 
-            login(email, null, (success, response) => {
+            login(email, null, recaptchaResponse, (status, response) => {
 
-                if (!success) {
-                    validateInput(emailInput, emailInputFeedback, false, response);
+                if (status !== 200) {
+                    validateInput(errorText, false, response["error"].toLowerCase());
                     return;
                 }
 
-                validateInput(emailInput, emailInputFeedback, true, "a verification code has been sent to your email");
+                validateInput(errorText, true, "a verification code has been sent to your email");
                 codeInput.parentElement.classList.remove("d-none");
                 submitButton.innerText = "sign in";
 
@@ -133,18 +113,18 @@ function loadProfileLoginModule(showId) {
             let code = codeInput.value;
             let isCodeValid = codeRegex.test(code);
             if (!isCodeValid) {
-                validateInput(codeInput, codeInputFeedback, false, "please enter a valid confirmation code");
+                validateInput(errorText, false, "please enter a valid verification code");
                 return;
             }
 
-            login(email, code, (success, response) => {
+            login(email, code, recaptchaResponse, (status, response) => {
 
-                if (!success) {
-                    validateInput(codeInput, codeInputFeedback, false, response);
+                if (status !== 200) {
+                    validateInput(errorText, false, response["error"].toLowerCase());
                     return;
                 }
 
-                loadProfileModule(showId);
+                follow(showId, true);
 
             });
 
@@ -154,45 +134,37 @@ function loadProfileLoginModule(showId) {
 
 }
 
-function validateInput(inputElement, feedbackElement, isValid, feedback) {
-    if (!isValid) {
-        inputElement.classList.add("is-invalid");
-        inputElement.classList.remove("is-valid");
-        feedbackElement.classList.add("invalid-feedback");
-        feedbackElement.classList.remove("valid-feedback");
-        feedbackElement.innerText = feedback;
-    } else {
-        inputElement.classList.add("is-valid");
-        inputElement.classList.remove("is-invalid");
-        feedbackElement.classList.add("valid-feedback");
-        feedbackElement.classList.remove("invalid-feedback");
-        feedbackElement.innerText = feedback;
-    }
+function validateInput(feedbackElement, isValid, feedback) {
+    feedbackElement.className = isValid ? "text-success" : "text-danger";
+    feedbackElement.innerText = feedback;
 }
 
-function login(email, code, callback) {
+function login(email, code, recaptcha, callback) {
+    let url = API_URL + "login";
     let data = {
         "email": email,
-        "code": code
+        "code": code,
+        "recaptcha": recaptcha
     }
-    let url = API_URL + "login";
     postJson(url, data, callback);
 }
 
-function unfollow(showId) {
-    let url = API_URL + "follow?showId=" + showId + "&follow=false";
+function showFollowList(shows) {
+    let followListHtml = getFollowListHtml(shows);
+    showDialog(followListHtml);
+}
 
-    getJson(url, (success, response) => {
+function follow(showId, follow) {
+    let url = API_URL + "follow?showId=" + showId + "&follow=" + follow;
+    getJson(url, (status, response) => {
 
-        if (!success) {//todo
-            showLoader(document.body, "error: " + response.toLowerCase(), false);
-            return;
-        }
-
-        if (!Array.isArray(response)) {
-            loadProfileLoginModule(showId);
+        if (status === 200) {
+            let shows = response;
+            showFollowList(shows);
+        } else if (status === 401) {
+            showLogin(showId);
         } else {
-            loadProfilePageModule(response);
+            showLoader(document.body, "error: " + response["error"].toLowerCase(), false);
         }
 
     });

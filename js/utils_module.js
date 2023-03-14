@@ -2,43 +2,37 @@ function getJson(url, callback) {
     let options = {
         credentials: "include"
     };
-    fetchJsonResponse(url, options)
-        .then(response => {
-            callback(true, response);
-        })
-        .catch(error => {
-            console.log(error);
-            callback(false, error.message);
-        });
+    fetchJsonResponse(url, options, callback)
 }
 
-function postJson(url, data, callback) {
+function postJson(url, jsonBody, callback) {
     let options = {
         method: "POST",
         headers: {
             "Content-Type": "application/json",
         },
         credentials: "include",
-        body: JSON.stringify(data),
+        body: JSON.stringify(jsonBody),
     };
-    fetchJsonResponse(url, options)
-        .then(response => {
-            callback(true, response);
+    fetchJsonResponse(url, options, callback);
+}
+
+async function fetchJsonResponseAsync(url, options) {
+    let response = await fetch(url, options)
+    let status = response.status
+    let json = await response.json();
+    return [status, json];
+}
+
+function fetchJsonResponse(url, options, callback) {
+    fetchJsonResponseAsync(url, options)
+        .then(([status, json]) => {
+            callback(status, json);
         })
         .catch(error => {
             console.log(error);
-            callback(false, error.message);
+            callback(false, {"error": error.message});
         });
-}
-
-async function fetchJsonResponse(url, options) {
-    let response = await fetch(url, options)
-    if (!response.ok) {
-        let status = response.status + " " + response.statusText + ": ";
-        let errorMessage = await response.text();
-        throw new Error(status + errorMessage);
-    }
-    return await response.json();
 }
 
 let timeout;

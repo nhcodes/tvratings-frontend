@@ -236,10 +236,10 @@ function loadShowModule(showId, contentElement) {
 
     showLoader(contentElement, "", true);
 
-    getJson(url, (success, response) => {
+    getJson(url, (status, response) => {
 
-        if (!success) {
-            showLoader(contentElement, "error: " + response.toLowerCase(), false);
+        if (status !== 200) {
+            showLoader(contentElement, "error: " + response["error"].toLowerCase(), false);
             return;
         }
 
@@ -343,7 +343,7 @@ function calculateStats(episodes) {
 //listeners
 
 function onClickFollow(showId) {
-    loadProfileModule(showId);
+    follow(showId, true);
 }
 
 function onClickViewOn(showId, title) {

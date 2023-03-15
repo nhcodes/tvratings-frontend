@@ -5,7 +5,7 @@ function getLoaderHtml(text, showLoader) {
     return `
         <div class="d-flex flex-row justify-content-center align-items-center position-absolute top-50 start-50 translate-middle">
             <div class="spinner-border ${display}" role="status"></div>
-            <div class="m-3">${text}</div>
+            <span class="m-3">${text}</span>
         </div>
     `
 }

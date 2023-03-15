@@ -4,15 +4,15 @@ function getLoginHtml() {
     return `
         <div class="d-flex flex-column mx-auto">
         
-            <span class="text-center my-2">log in</span>
+            <span class="text-center my-2">log in:</span>
             
             <div class="mb-3">
-                <span class="form-label">email address</span>
+                <label class="form-label">email address</label>
                 <input id="INPUT_LOGIN_EMAIL" type="email" class="form-control" placeholder="email@example.com">
             </div>
             
             <div class="mb-3 d-none">
-                <span class="form-label">verification code</span>
+                <label class="form-label">verification code</label>
                 <input id="INPUT_LOGIN_CODE" type="text" class="form-control" placeholder="ABC123">
             </div>
             
@@ -20,9 +20,7 @@ function getLoginHtml() {
                 <div id="INPUT_LOGIN_RECAPTCHA"></div>
             </div>
             
-            <div class="small mb-3">
-                <span id="TEXT_LOGIN_ERROR"></span>
-            </div>
+            <small id="TEXT_LOGIN_ERROR"></small>
             
             <button id="BUTTON_LOGIN_SUBMIT" class="btn btn-primary mb-3">next</button>
             
@@ -139,7 +137,7 @@ function showLogin(showId) {
 }
 
 function validateInput(feedbackElement, isValid, feedback) {
-    feedbackElement.className = isValid ? "text-success" : "text-danger";
+    feedbackElement.className = isValid ? "text-success mb-3" : "text-danger mb-3";
     feedbackElement.innerText = feedback;
 }
 

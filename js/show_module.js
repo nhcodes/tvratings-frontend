@@ -20,7 +20,7 @@ function getShowPageHtml(show, episodes) {
             <div class="col-auto shadow-sm rounded-4 mx-auto py-2 px-1 text-center bg-body-tertiary bg-opacity-75">
                     
                 <div class="d-flex flex-column">
-                    <span class="h2 m-0">${title}</span>
+                    <h2 class="m-0">${title}</h2>
                     <span>${years}</span>
                     <span>${genres}</span>
                 </div>
@@ -29,8 +29,8 @@ function getShowPageHtml(show, episodes) {
                     <table class="table table-borderless w-auto mx-auto my-0 align-middle">
                     
                         <tr>
-                            <th rowspan="999" style="width: 1px;"><span class="small">s e a s o n s</span></th>
-                            <th colspan="999"><span class="small">e p i s o d e s</span></th>
+                            <th rowspan="999" style="width: 1px;"><small>s e a s o n s</small></th>
+                            <th colspan="999"><small>e p i s o d e s</small></th>
                         </tr>
                         
                         ${getHeatmapHtml(episodes)}
@@ -40,15 +40,15 @@ function getShowPageHtml(show, episodes) {
                 
                 <div class="d-flex flex-row">
                     <div class="col-4">
-                        <p class="h5 m-0">${episodeCount}</p>
+                        <h5 class="m-0">${episodeCount}</h5>
                         <span>episodes</span>
                     </div>
                     <div class="col-4">
-                        <p class="h5 m-0">${votes}</p>
+                        <h5 class="m-0">${votes}</h5>
                         <span>votes</span>
                     </div>
                     <div class="col-4">
-                        <p class="h5 m-0">${rating}</p>
+                        <h5 class="m-0">${rating}</h5>
                         <span>rating</span>
                     </div>
                 </div>
@@ -110,7 +110,7 @@ function getShowLinksHtml(showId, title) {
                         <img class="rounded-circle m-auto" src="${site.image}" alt="favicon" style="width: 32px; height: 32px">
                         <div class="d-flex flex-column flex-fill ms-3">
                             <span>${site.name}</span>
-                            <span class="small">${site.description}</span>
+                            <small>${site.description}</small>
                         </div>
                     </a>
                 `)}
@@ -144,7 +144,7 @@ function getPopoverHtml(episodeId, title, rating, votes, year, duration) {
             <span>duration: <b>${duration || ""}</b></span>
             <br>
             <a href='https://imdb.com/title/${episodeId}' target='_blank' class='text-decoration-none'>
-                <span class='small'>show on imdb.com</span>
+                <small>show on imdb.com</small>
             </a>
         </div>
     `;

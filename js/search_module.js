@@ -21,12 +21,12 @@ function getSearchTableHtml() {
     return `
         <div class="d-flex flex-column shadow-sm rounded-4 m-2 bg-body-tertiary">
         
-            <ul class="nav nav-pills nav-justified m-2 text-nowrap">
+            <ul class="nav nav-pills nav-justified m-2 text-nowrap" role="tablist">
                 <li class="nav-item">
-                    <button class="nav-link active" onclick="onChangeType(this, 'shows')">top shows</button>
+                    <button class="nav-link active" onclick="onChangeType(this, 'shows')" role="tab">top shows</button>
                 </li>
                 <li class="nav-item">
-                    <button class="nav-link" onclick="onChangeType(this, 'episodes')">top episodes</button>
+                    <button class="nav-link" onclick="onChangeType(this, 'episodes')" role="tab">top episodes</button>
                 </li>
             </ul>
                 
@@ -79,7 +79,7 @@ function getSearchTableHeadHtml(compact) {
 function getSearchTableBodyHtml(shows, compact) {
     return `
         ${loop(shows, (show) => `
-            <tr onclick="onClickShow('${show['showId']}')" style="cursor: pointer">
+            <tr role="button" tabindex="0" onclick="onClickShow('${show['showId']}')">
                 <td class="">${show["title"]}</td>
                 <td class="text-end">${kNumber(show["votes"])}</td>
                 <td class="text-end">${show["rating"].toFixed(1)}</td>
@@ -97,7 +97,7 @@ function getSearchFiltersHtml() {
     return `
         <div class="d-flex flex-column shadow-sm rounded-4 m-2 bg-body-tertiary">
         
-            <span class="text-center m-2">filters</span>
+            <h6 class="text-body text-center m-2">filters</h6>
         
             <div class="d-flex flex-column p-1">
             

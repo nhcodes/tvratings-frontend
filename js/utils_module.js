@@ -31,7 +31,7 @@ function fetchJsonResponse(url, options, callback) {
         })
         .catch(error => {
             console.log(error);
-            callback(false, {"error": error.message});
+            callback(undefined, {"error": error.message}); //todo status code
         });
 }
 

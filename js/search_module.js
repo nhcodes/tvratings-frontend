@@ -30,7 +30,7 @@ function getSearchTableHtml() {
                 </li>
             </ul>
                 
-            <div id="TABLE_SEARCH_CONTENT" class="table-responsive text-nowrap">
+            <div id="TABLE_SEARCH_CONTENT" class="table-responsive text-nowrap" style="min-height: 200px">
                 <!-- getSearchTableContentHtml -->
             </div>
             

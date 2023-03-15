@@ -30,15 +30,8 @@ function getSearchTableHtml() {
                 </li>
             </ul>
                 
-            <div id="TABLE_SEARCH_CARD" class="table-responsive text-nowrap" style="min-height: 100px">
-                <table class="table table-hover m-0">
-                    <thead id="TABLE_SEARCH_HEAD">
-                        <!-- getSearchTableHeadHtml -->
-                    </thead>
-                    <tbody id="TABLE_SEARCH_BODY">
-                        <!-- getSearchTableBodyHtml -->
-                    </tbody>
-                </table>
+            <div id="TABLE_SEARCH_CONTENT" class="table-responsive text-nowrap">
+                <!-- getSearchTableContentHtml -->
             </div>
             
             <div class="d-flex flex-row align-items-center justify-content-between">
@@ -59,36 +52,48 @@ function getSearchTableHtml() {
     `;
 }
 
-function getSearchTableHeadHtml(compact) {
-    return `
-        <tr>
-            <th>title</th>
-            <th class="text-end">votes</th>
-            <th class="text-end">rating</th>
-            ${conditional(!compact, `
-                <th class="text-center">year</th>
-                <th class="text-end">duration</th>
-                <th class="text-center">genres</th>
-            `)}
-        </tr>
-    `;
-}
-
 //startYear, endYear, duration, genres can be null
 
-function getSearchTableBodyHtml(shows, compact) {
+function getSearchTableContentHtml(shows, compact) {
     return `
-        ${loop(shows, (show) => `
-            <tr role="button" tabindex="0" onclick="onClickShow('${show['showId']}')">
-                <td class="">${show["title"]}</td>
-                <td class="text-end">${kNumber(show["votes"])}</td>
-                <td class="text-end">${show["rating"].toFixed(1)}</td>
-                ${conditional(!compact, `
-                    <td class="text-center">${show["startYear"] || ""} - ${show["endYear"] || ""}</td>
-                    <td class="text-end">${show["duration"] || ""}</td>
-                    <td class="text-center">${(show["genres"] || "").replace(/,/g, ", ")}</td>
-                `)}
-            </tr>
+        ${conditional(shows.length !== 0, `
+
+            <table class="table table-hover m-0">
+            
+                <thead>
+                    <tr>
+                        <th>title</th>
+                        <th class="text-end">votes</th>
+                        <th class="text-end">rating</th>
+                        ${conditional(!compact, `
+                            <th class="text-center">year</th>
+                            <th class="text-end">duration</th>
+                            <th class="text-center">genres</th>
+                        `)}
+                    </tr>
+                </thead>
+                
+                <tbody>
+                    ${loop(shows, (show) => `
+                        <tr role="button" tabindex="0" onclick="onClickShow('${show['showId']}')">
+                            <td class="">${show["title"]}</td>
+                            <td class="text-end">${kNumber(show["votes"])}</td>
+                            <td class="text-end">${show["rating"].toFixed(1)}</td>
+                            ${conditional(!compact, `
+                                <td class="text-center">${show["startYear"] || ""} - ${show["endYear"] || ""}</td>
+                                <td class="text-end">${show["duration"] || ""}</td>
+                                <td class="text-center">${(show["genres"] || "").replace(/,/g, ", ")}</td>
+                            `)}
+                        </tr>
+                    `)}
+                </tbody>
+                
+            </table>
+            
+        `, `
+
+            <p class="fs-3 m-3 text-center">no shows found</p>
+            
         `)}
     `;
 }
@@ -249,9 +254,7 @@ const parameters = {
 
 let compactView = true;
 
-let searchTableCardElement;
-let searchTableHeadElement;
-let searchTableBodyElement;
+let searchTableContentElement;
 
 let pageNumberTextElement;
 
@@ -260,9 +263,7 @@ function loadSearchModule(contentElement) {
     let pageHtml = getSearchPageHtml();
     let pageElement = parseElement(pageHtml);
 
-    searchTableCardElement = pageElement.querySelector("#TABLE_SEARCH_CARD");
-    searchTableHeadElement = pageElement.querySelector("#TABLE_SEARCH_HEAD");
-    searchTableBodyElement = pageElement.querySelector("#TABLE_SEARCH_BODY");
+    searchTableContentElement = pageElement.querySelector("#TABLE_SEARCH_CONTENT");
     pageNumberTextElement = pageElement.querySelector("#TEXT_PAGE_NUMBER");
 
     updateSearchTable();
@@ -278,28 +279,20 @@ function updateSearchTable() {
     let url = API_URL + "search?" + queryString;
     console.log(url);
 
-    showLoader(searchTableCardElement, "", true);
+    showLoader(searchTableContentElement, "", true);
 
     getJson(url, (status, response) => {
 
         if (status !== 200) {
-            showLoader(searchTableCardElement, "error: " + response["error"].toLowerCase(), false);
+            showLoader(searchTableContentElement, "error: " + response["error"].toLowerCase(), false);
             return;
         }
 
         hideLoader();
 
         let showsJson = response;
-
-        searchTableHeadElement.innerHTML = getSearchTableHeadHtml(compactView);
+        searchTableContentElement.innerHTML = getSearchTableContentHtml(showsJson, compactView);
         pageNumberTextElement.innerText = "page " + (parameters.pageNumber + 1);
-
-        if (showsJson.length === 0) {
-            searchTableBodyElement.innerHTML = "";
-            return;
-        }
-
-        searchTableBodyElement.innerHTML = getSearchTableBodyHtml(showsJson, compactView);
 
     });
 }

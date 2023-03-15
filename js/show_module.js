@@ -103,7 +103,7 @@ function getShowLinksHtml(showId, title) {
     ];
     return `
         <div class="d-flex flex-column">
-            <span class="text-center my-2">view on</span>
+            <span class="text-center my-2">view on:</span>
             <div class="list-group list-group-flush">
                 ${loop(sites, (site) => `
                     <a class="list-group-item list-group-item-action d-flex flex-row" href="${site.url}" target="_blank">

@@ -34,12 +34,9 @@ function getFollowListHtml(shows) {
     return `
         <div class="d-flex flex-column">
         
-            <span class="text-center my-2">profile</span>
+            <span class="text-center my-2">followed shows:</span>
             
-            <span class="ms-2">followed shows:</span>
-            
-            <div class="list-group list-group-flush overflow-y-auto" style="max-height: 300px">
-            
+            <div class="list-group list-group-flush">
                 ${loop(shows, (show) => `
                     <a class="list-group-item list-group-item-action d-flex flex-row align-items-center" href="?showId=${show["showId"]}" target="_blank">
                         <span class="flex-fill">${show["title"]}</span>
@@ -48,7 +45,6 @@ function getFollowListHtml(shows) {
                         </button>
                     </a>
                 `)}
-                
             </div>
             
         </div>

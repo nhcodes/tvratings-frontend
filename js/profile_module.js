@@ -91,7 +91,11 @@ function showLogin(showId) {
 
         if (codeInput.parentElement.classList.contains("d-none")) {
 
+            showLoader(dialogElement.firstElementChild, "", true);
+
             login(email, null, recaptchaResponse, (status, response) => {
+
+                hideLoader();
 
                 if (status !== 200) {
                     validateInput(errorText, false, response["error"].toLowerCase());
@@ -113,7 +117,11 @@ function showLogin(showId) {
                 return;
             }
 
+            showLoader(dialogElement.firstElementChild, "", true);
+
             login(email, code, recaptchaResponse, (status, response) => {
+
+                hideLoader();
 
                 if (status !== 200) {
                     validateInput(errorText, false, response["error"].toLowerCase());

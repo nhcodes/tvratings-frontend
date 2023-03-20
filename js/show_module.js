@@ -26,7 +26,7 @@ function getShowPageHtml(show, episodes) {
                 </div>
                        
                 <div class="table-responsive my-3">
-                    <table class="table table-borderless w-auto mx-auto my-0 align-middle">
+                    <table id="TABLE_HEATMAP" class="table table-borderless w-auto mx-auto my-0 align-middle">
                     
                         <tr>
                             <th rowspan="999" style="width: 1px;"><small>s e a s o n s</small></th>
@@ -60,6 +60,8 @@ function getShowPageHtml(show, episodes) {
                      onclick="onClickFollow('${showId}')">follow</button>
                     <button class="btn btn-link text-decoration-none"
                      onclick="onClickViewOn('${showId}', '${escapedTitle}')">view on</button>
+                    <button class="btn btn-link text-decoration-none"
+                     onclick="onClickFitScreen()">fit screen</button>
                 </div>
                         
             </div>
@@ -348,4 +350,10 @@ function onClickFollow(showId) {
 
 function onClickViewOn(showId, title) {
     showDialog(getShowLinksHtml(showId, title));
+}
+
+function onClickFitScreen() {
+    let viewportMeta = document.querySelector("meta[name='viewport']");
+    let tableWidth = document.querySelector("#TABLE_HEATMAP").clientWidth;
+    viewportMeta.content = `width=${tableWidth}`;
 }

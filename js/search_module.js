@@ -75,8 +75,10 @@ function getSearchTableContentHtml(shows, compact) {
                 
                 <tbody>
                     ${loop(shows, (show) => `
-                        <tr role="button" tabindex="0" onclick="onClickShow('${show['showId']}')">
-                            <td class="">${show["title"]}</td>
+                        <tr>
+                            <td>
+                                <a href="?showId=${show['showId']}" target='_blank' class="d-block text-reset text-decoration-none">${show["title"]}</a>
+                            </td>
                             <td class="text-end">${kNumber(show["votes"])}</td>
                             <td class="text-end">${show["rating"].toFixed(1)}</td>
                             ${conditional(!compact, `
@@ -345,8 +347,4 @@ function onChangePage(element, count) {
     if (parameters.pageNumber + count < 0) return;
     parameters.pageNumber += count;
     updateSearchTable();
-}
-
-function onClickShow(showId) {
-    window.open(`?showId=${showId}`);
 }

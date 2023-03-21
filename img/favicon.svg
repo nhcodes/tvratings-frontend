@@ -1,0 +1,17 @@
+<svg width="1000" height="1000" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="a">
+      <stop offset="0%" stop-color="hsl(0,100%,30%)"/>
+      <stop offset="10%" stop-color="hsl(0,100%,30%)"/>
+      <stop offset="20%" stop-color="hsl(0,100%,42%)"/>
+      <stop offset="30%" stop-color="hsl(17,100%,50%)"/>
+      <stop offset="40%" stop-color="hsl(34,100%,55%)"/>
+      <stop offset="50%" stop-color="hsl(51,100%,57%)"/>
+      <stop offset="60%" stop-color="hsl(69,100%,55%)"/>
+      <stop offset="70%" stop-color="hsl(86,100%,50%)"/>
+      <stop offset="80%" stop-color="hsl(103,100%,42%)"/>
+      <stop offset="90%" stop-color="hsl(120,100%,30%)"/>
+    </linearGradient>
+  </defs>
+  <path d="M11.075 3.256c.34-.828 1.51-.828 1.85 0L14.65 7.46a1 1 0 0 0 .85.617l4.531.341c.892.067 1.254 1.181.572 1.76l-3.465 2.939a1 1 0 0 0-.325 1l1.076 4.413c.212.87-.736 1.558-1.497 1.088l-3.865-2.387a1 1 0 0 0-1.051 0L7.61 19.618c-.761.47-1.709-.219-1.497-1.088l1.076-4.414a1 1 0 0 0-.325-1l-3.465-2.938c-.682-.579-.32-1.693.572-1.76l4.53-.34a1 1 0 0 0 .85-.618l1.725-4.204Z" stroke="#212121" stroke-width="1.2" fill="url('#a')"/>
+</svg>

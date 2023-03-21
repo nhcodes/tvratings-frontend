@@ -55,30 +55,30 @@ const emailRegex = new RegExp("\\S+@\\S+\\.\\S+");
 const codeRegex = new RegExp("\\w{6}");
 
 function showLogin(showId) {
-    let loginHtml = getLoginHtml();
-    let dialogElement = showDialog(loginHtml);
+    const loginHtml = getLoginHtml();
+    const dialogElement = showDialog(loginHtml);
 
-    let emailInput = dialogElement.querySelector("#INPUT_LOGIN_EMAIL");
-    let codeInput = dialogElement.querySelector("#INPUT_LOGIN_CODE");
-    let recaptchaInput = dialogElement.querySelector("#INPUT_LOGIN_RECAPTCHA");
-    let submitButton = dialogElement.querySelector("#BUTTON_LOGIN_SUBMIT");
-    let errorText = dialogElement.querySelector("#TEXT_LOGIN_ERROR");
+    const emailInput = dialogElement.querySelector("#INPUT_LOGIN_EMAIL");
+    const codeInput = dialogElement.querySelector("#INPUT_LOGIN_CODE");
+    const recaptchaInput = dialogElement.querySelector("#INPUT_LOGIN_RECAPTCHA");
+    const submitButton = dialogElement.querySelector("#BUTTON_LOGIN_SUBMIT");
+    const errorText = dialogElement.querySelector("#TEXT_LOGIN_ERROR");
 
-    let recaptchaId = grecaptcha.render(recaptchaInput, {
+    const recaptchaId = grecaptcha.render(recaptchaInput, {
         "sitekey": "6LfM8_okAAAAAELhbiyl9DBoKs9HMMIvv98Z_FNs",
         "theme": isDarkTheme() ? "dark" : "light"
     });
 
     submitButton.onclick = () => {
 
-        let email = emailInput.value;
-        let isEmailValid = emailRegex.test(email);
+        const email = emailInput.value;
+        const isEmailValid = emailRegex.test(email);
         if (!isEmailValid) {
             validateInput(errorText, false, "please enter a valid email");
             return;
         }
 
-        let recaptchaResponse = grecaptcha.getResponse(recaptchaId);
+        const recaptchaResponse = grecaptcha.getResponse(recaptchaId);
         console.log("recaptchaResponse: " + recaptchaResponse);
         if (!recaptchaResponse) {
             validateInput(errorText, false, "please verify that you're not a bot");
@@ -108,8 +108,8 @@ function showLogin(showId) {
 
         } else {
 
-            let code = codeInput.value;
-            let isCodeValid = codeRegex.test(code);
+            const code = codeInput.value;
+            const isCodeValid = codeRegex.test(code);
             if (!isCodeValid) {
                 validateInput(errorText, false, "please enter a valid verification code");
                 return;
@@ -142,8 +142,8 @@ function validateInput(feedbackElement, isValid, feedback) {
 }
 
 function login(email, code, recaptcha, callback) {
-    let url = API_URL + "login";
-    let data = {
+    const url = API_URL + "login";
+    const data = {
         "email": email,
         "code": code,
         "recaptcha": recaptcha
@@ -152,16 +152,16 @@ function login(email, code, recaptcha, callback) {
 }
 
 function showFollowList(shows) {
-    let followListHtml = getFollowListHtml(shows);
+    const followListHtml = getFollowListHtml(shows);
     showDialog(followListHtml);
 }
 
 function follow(showId, follow) {
-    let url = API_URL + "follow?showId=" + showId + "&follow=" + follow;
+    const url = API_URL + "follow?showId=" + showId + "&follow=" + follow;
     getJson(url, (status, response) => {
 
         if (status === 200) {
-            let shows = response;
+            const shows = response;
             showFollowList(shows);
         } else if (status === 401) {
             showLogin(showId);

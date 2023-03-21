@@ -68,14 +68,14 @@
 
 <script>
 
-    let API_URL = "https://api.tvratin.gs:7070/"; //"http://localhost:7070/";//
+    const API_URL = "https://api.tvratin.gs:7070/"; //"http://localhost:7070/";//
 
-    let headerElement = document.querySelector("#HEADER");
-    let contentElement = document.querySelector("#CONTENT");
-    let footerElement = document.querySelector("#FOOTER");
+    const headerElement = document.querySelector("#HEADER");
+    const contentElement = document.querySelector("#CONTENT");
+    const footerElement = document.querySelector("#FOOTER");
 
-    let urlParameters = new URLSearchParams(window.location.search);
-    let showId = urlParameters.get("showId");
+    const urlParameters = new URLSearchParams(window.location.search);
+    const showId = urlParameters.get("showId");
 
     if (showId === null) {
 
@@ -95,10 +95,10 @@
 
     //========== dark mode button ==========
 
-    let darkModeButtonElement = document.querySelector("#BUTTON_DARK_MODE");
+    const darkModeButtonElement = document.querySelector("#BUTTON_DARK_MODE");
 
     darkModeButtonElement.onclick = () => {
-        let newTheme = isDarkTheme() ? "light" : "dark";
+        const newTheme = isDarkTheme() ? "light" : "dark";
         setCookie("theme", newTheme);
         setTheme();
     }
@@ -110,7 +110,7 @@
     }
 
     function setTheme() {
-        let buttonIconClass = darkModeButtonElement.firstElementChild.classList;
+        const buttonIconClass = darkModeButtonElement.firstElementChild.classList;
         if (isDarkTheme()) {
             document.documentElement.setAttribute("data-bs-theme", "dark");
             buttonIconClass.add("bi-sun");

@@ -2,18 +2,18 @@
 
 function getShowPageHtml(show, episodes) {
 
-    let showId = show["showId"];
-    let title = show["title"];
-    let escapedTitle = title.replace(/['"]/g, " "); //todo
-    let startYear = show["startYear"] || "";
-    let endYear = show["endYear"] || "";
-    let years = startYear + " - " + endYear;
-    //let duration = show["duration"] || "";
+    const showId = show["showId"];
+    const title = show["title"];
+    const escapedTitle = title.replace(/['"]/g, " "); //todo
+    const startYear = show["startYear"] || "";
+    const endYear = show["endYear"] || "";
+    const years = startYear + " - " + endYear;
+    //const duration = show["duration"] || "";
     let genres = show["genres"] || "";
     genres = genres.replace(/,/g, ", ").toLowerCase();
-    let rating = show["rating"].toFixed(1);
-    let votes = show["votes"];
-    let episodeCount = episodes.length;
+    const rating = show["rating"].toFixed(1);
+    const votes = show["votes"];
+    const episodeCount = episodes.length;
 
     return `
         <div class="row my-5 mx-1">
@@ -70,8 +70,8 @@ function getShowPageHtml(show, episodes) {
 }
 
 function getShowLinksHtml(showId, title) {
-    let encodedTitle = encodeURIComponent(title);
-    let sites = [
+    const encodedTitle = encodeURIComponent(title);
+    const sites = [
         {
             "url": `https://imdb.com/title/${showId}`,
             "image": "img/imdb.png",
@@ -122,10 +122,10 @@ function getShowLinksHtml(showId, title) {
 }
 
 function getCellHtml(episodeId, title, season, episode, rating, votes, year, duration, hasBorder) {
-    let ratingString = rating === undefined ? "/" : rating.toFixed(1);
-    let popoverTitle = `season ${season} episode ${episode}`;
-    let popoverContent = getPopoverHtml(episodeId, title, ratingString, votes, year, duration);
-    let cellColor = getCellColor(rating);
+    const ratingString = rating === undefined ? "/" : rating.toFixed(1);
+    const popoverTitle = `season ${season} episode ${episode}`;
+    const popoverContent = getPopoverHtml(episodeId, title, ratingString, votes, year, duration);
+    const cellColor = getCellColor(rating);
     return `
         <td tabindex="0" role="button" class="fixed-size-cell" style="background-color: ${cellColor}; ${hasBorder ? "border: 2px solid black;" : ""}"
             data-bs-trigger="focus" data-bs-toggle="popover" data-bs-placement="bottom" data-bs-html="true"
@@ -156,63 +156,63 @@ function getCellColor(r) {
     //no rating -> gray
     if (r === undefined) return "#424242";
     //3->0 10->120
-    let h = Math.round(r <= 3 ? 0 : 17.143 * r - 51.429);
+    const h = Math.round(r <= 3 ? 0 : 17.143 * r - 51.429);
     //2->30 4->50 8->50 10->30
-    let l = Math.round(r <= 2 ? 30 : -5 / 3 * r ** 2 + 20 * r - 10 / 3);
+    const l = Math.round(r <= 2 ? 30 : -5 / 3 * r ** 2 + 20 * r - 10 / 3);
     return "hsl(" + h + ",100%," + l + "%)";
 }
 
 function getHeatmapHtml(episodes) {
-    let [minSeasonNumber, maxSeasonNumber, minEpisodeNumber, maxEpisodeNumber, minRatingEpisodeId, maxRatingEpisodeId] =
+    const [minSeasonNumber, maxSeasonNumber, minEpisodeNumber, maxEpisodeNumber, minRatingEpisodeId, maxRatingEpisodeId] =
         calculateStats(episodes);
 
     //generate 2d array with empty cells
 
-    let rowCount = maxSeasonNumber - minSeasonNumber + 1;
-    let columnCount = maxEpisodeNumber - minEpisodeNumber + 1;
+    const rowCount = maxSeasonNumber - minSeasonNumber + 1;
+    const columnCount = maxEpisodeNumber - minEpisodeNumber + 1;
 
-    let rowArray = [];
+    const rowArray = [];
     for (let rowIndex = 0; rowIndex <= rowCount; rowIndex++) {
-        let columnArray = [];
+        const columnArray = [];
         for (let columnIndex = 0; columnIndex <= columnCount; columnIndex++) {
             columnArray[columnIndex] = `<td></td>`;
         }
         rowArray[rowIndex] = columnArray;
     }
-    let tableArray = rowArray;
+    const tableArray = rowArray;
 
     //set season and episode number cells
 
     for (let season = minSeasonNumber; season <= maxSeasonNumber; season++) {
-        let rowIndex = season - minSeasonNumber + 1
+        const rowIndex = season - minSeasonNumber + 1
         tableArray[rowIndex][0] = `<td class="fixed-size-cell">${season}</td>`;
     }
 
     for (let episode = minEpisodeNumber; episode <= maxEpisodeNumber; episode++) {
-        let cellIndex = episode - minEpisodeNumber + 1
+        const cellIndex = episode - minEpisodeNumber + 1
         tableArray[0][cellIndex] = `<td class="fixed-size-cell">${episode}</td>`;
     }
 
     //set episode cells
 
-    for (let episode of episodes) {
+    for (const episode of episodes) {
 
-        let seasonNumber = episode["season"];
-        let episodeNumber = episode["episode"];
+        const seasonNumber = episode["season"];
+        const episodeNumber = episode["episode"];
 
-        let episodeId = episode["episodeId"];
-        let episodeTitle = episode["title"];
-        let rating = episode["rating"];
-        let votes = episode["votes"];
-        let year = episode["startYear"];
-        let duration = episode["duration"];
+        const episodeId = episode["episodeId"];
+        const episodeTitle = episode["title"];
+        const rating = episode["rating"];
+        const votes = episode["votes"];
+        const year = episode["startYear"];
+        const duration = episode["duration"];
 
-        let hasBorder = episodeId === minRatingEpisodeId || episodeId === maxRatingEpisodeId;
+        const hasBorder = episodeId === minRatingEpisodeId || episodeId === maxRatingEpisodeId;
 
-        let cellHtml = getCellHtml(episodeId, episodeTitle, seasonNumber, episodeNumber, rating, votes, year, duration, hasBorder);
+        const cellHtml = getCellHtml(episodeId, episodeTitle, seasonNumber, episodeNumber, rating, votes, year, duration, hasBorder);
 
-        let rowIndex = seasonNumber - minSeasonNumber + 1;
-        let cellIndex = episodeNumber - minEpisodeNumber + 1;
+        const rowIndex = seasonNumber - minSeasonNumber + 1;
+        const cellIndex = episodeNumber - minEpisodeNumber + 1;
         tableArray[rowIndex][cellIndex] = cellHtml;
 
     }
@@ -234,7 +234,7 @@ function getHeatmapHtml(episodes) {
 
 function loadShowModule(showId, contentElement) {
 
-    let url = API_URL + "show?showId=" + showId;
+    const url = API_URL + "show?showId=" + showId;
 
     showLoader(contentElement, "", true);
 
@@ -248,25 +248,25 @@ function loadShowModule(showId, contentElement) {
         hideLoader();
 
         //startYear, endYear, duration, genres can be null
-        let show = response["show"];
+        const show = response["show"];
 
         //startYear, duration, votes, rating can be null
-        let episodes = response["episodes"];
+        const episodes = response["episodes"];
 
-        let title = show["title"];
+        const title = show["title"];
 
         //set title & description
         document.title = `${title} - tvratin.gs`;
-        let description = `find the top rated episodes from the tv show '${title.replace(/['"]/g, " ")}' using our episode rating heatmaps.`;
+        const description = `find the top rated episodes from the tv show '${title.replace(/['"]/g, " ")}' using our episode rating heatmaps.`;
         document.querySelector("meta[name='description']").setAttribute("content", description);
 
         //include title in url
-        let url = new URL(window.location.href);
+        const url = new URL(window.location.href);
         url.searchParams.set("title", title.replace(/\W/g, "-"));
         window.history.replaceState(null, null, url);
 
-        let showPageHtml = getShowPageHtml(show, episodes);
-        let showPageElement = parseElement(showPageHtml);
+        const showPageHtml = getShowPageHtml(show, episodes);
+        const showPageElement = parseElement(showPageHtml);
 
         getPosterFromImdb(showId, image => {
 
@@ -274,7 +274,7 @@ function loadShowModule(showId, contentElement) {
                 return;
             }
 
-            let style = showPageElement.parentElement.style;
+            const style = showPageElement.parentElement.style;
             style.backgroundImage = "url('" + image + "')";
             style.backgroundSize = "contain"; //cover
 
@@ -301,11 +301,11 @@ function calculateStats(episodes) {
     let minRatingEpisode = undefined;
     let maxRatingEpisode = undefined;
 
-    for (let episode of episodes) {
-        let seasonNumber = episode["season"];
-        let episodeNumber = episode["episode"];
-        let rating = episode["rating"];
-        let votes = episode["votes"];
+    for (const episode of episodes) {
+        const seasonNumber = episode["season"];
+        const episodeNumber = episode["episode"];
+        const rating = episode["rating"];
+        const votes = episode["votes"];
 
         if (seasonNumber < minSeasonNumber) {
             minSeasonNumber = seasonNumber;
@@ -337,8 +337,8 @@ function calculateStats(episodes) {
     }
 
     //todo https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Optional_chaining
-    let minRatingEpisodeId = minRatingEpisode !== undefined ? minRatingEpisode["episodeId"] : undefined;
-    let maxRatingEpisodeId = maxRatingEpisode !== undefined ? maxRatingEpisode["episodeId"] : undefined;
+    const minRatingEpisodeId = minRatingEpisode !== undefined ? minRatingEpisode["episodeId"] : undefined;
+    const maxRatingEpisodeId = maxRatingEpisode !== undefined ? maxRatingEpisode["episodeId"] : undefined;
     return [minSeasonNumber, maxSeasonNumber, minEpisodeNumber, maxEpisodeNumber, minRatingEpisodeId, maxRatingEpisodeId]
 }
 
@@ -352,12 +352,12 @@ function onClickViewOn(showId, title) {
     showDialog(getShowLinksHtml(showId, title));
 }
 
-let defaultViewportContent = "width=device-width, initial-scale=1";
+const defaultViewportContent = "width=device-width, initial-scale=1";
 
 function onClickFitScreen() {
-    let viewportMeta = document.querySelector("meta[name='viewport']");
+    const viewportMeta = document.querySelector("meta[name='viewport']");
     if (viewportMeta.content === defaultViewportContent) {
-        let tableWidth = Math.round(document.querySelector("#TABLE_HEATMAP").clientWidth * 1.1);
+        const tableWidth = document.querySelector("#TABLE_HEATMAP").clientWidth + 48;
         viewportMeta.content = `width=${tableWidth}`;
     } else {
         viewportMeta.content = defaultViewportContent;

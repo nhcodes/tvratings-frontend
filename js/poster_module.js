@@ -12,7 +12,7 @@ function getPosterFromImdb(query, callback) {
 
     let imageUrl = null;
 
-    let callbackFunctionName = "imdb$" + query;
+    const callbackFunctionName = "imdb$" + query;
 
     window[callbackFunctionName] = function (results) {
 
@@ -24,14 +24,14 @@ function getPosterFromImdb(query, callback) {
             return;
         }
 
-        for (let result of results) {
+        for (const result of results) {
 
-            let id = result["id"];
+            const id = result["id"];
             if (id !== query) {
                 continue
             }
 
-            let image = result["i"];
+            const image = result["i"];
             if (image !== undefined) {
                 imageUrl = image[0];
             }
@@ -41,9 +41,9 @@ function getPosterFromImdb(query, callback) {
         callback(imageUrl);
     }
 
-    let url = "https://sg.media-imdb.com/suggests/titles/" + query.charAt(0) + "/" + query + ".json";
+    const url = "https://sg.media-imdb.com/suggests/titles/" + query.charAt(0) + "/" + query + ".json";
 
-    let script = document.createElement("script");
+    const script = document.createElement("script");
     script.src = url;
     document.body.append(script);
     script.remove();

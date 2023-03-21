@@ -262,8 +262,8 @@ let pageNumberTextElement;
 
 function loadSearchModule(contentElement) {
 
-    let pageHtml = getSearchPageHtml();
-    let pageElement = parseElement(pageHtml);
+    const pageHtml = getSearchPageHtml();
+    const pageElement = parseElement(pageHtml);
 
     searchTableContentElement = pageElement.querySelector("#TABLE_SEARCH_CONTENT");
     pageNumberTextElement = pageElement.querySelector("#TEXT_PAGE_NUMBER");
@@ -275,10 +275,10 @@ function loadSearchModule(contentElement) {
 
 function updateSearchTable() {
 
-    let filteredParameters = removeNullValuesFromObject(parameters);
-    let queryString = new URLSearchParams(filteredParameters).toString();
+    const filteredParameters = removeNullValuesFromObject(parameters);
+    const queryString = new URLSearchParams(filteredParameters).toString();
 
-    let url = API_URL + "search?" + queryString;
+    const url = API_URL + "search?" + queryString;
     console.log(url);
 
     showLoader(searchTableContentElement, "", true);
@@ -292,7 +292,7 @@ function updateSearchTable() {
 
         hideLoader();
 
-        let showsJson = response;
+        const showsJson = response;
         searchTableContentElement.innerHTML = getSearchTableContentHtml(showsJson, compactView);
         pageNumberTextElement.innerText = "page " + (parameters.pageNumber + 1);
 
@@ -321,7 +321,7 @@ function onFilter(key, value) {
 }
 
 function onChangeType(element, newType) {
-    let tab = new bootstrap.Tab(element);
+    const tab = new bootstrap.Tab(element);
     tab.show();
 
     parameters.type = newType;
@@ -330,7 +330,7 @@ function onChangeType(element, newType) {
 }
 
 function onFilterGenres(element) {
-    let selectedButtons = element.parentElement.parentElement.querySelectorAll(".active");
+    const selectedButtons = element.parentElement.parentElement.querySelectorAll(".active");
     let selectedGenres = Array.from(selectedButtons).map(e => e.innerText);
     if (selectedGenres.length === 0) selectedGenres = null;
     parameters.genres = selectedGenres;

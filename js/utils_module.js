@@ -1,12 +1,12 @@
 function getJson(url, callback) {
-    let options = {
+    const options = {
         credentials: "include"
     };
     fetchJsonResponse(url, options, callback)
 }
 
 function postJson(url, jsonBody, callback) {
-    let options = {
+    const options = {
         method: "POST",
         headers: {
             "Content-Type": "application/json",
@@ -18,9 +18,9 @@ function postJson(url, jsonBody, callback) {
 }
 
 async function fetchJsonResponseAsync(url, options) {
-    let response = await fetch(url, options)
-    let status = response.status
-    let json = await response.json();
+    const response = await fetch(url, options)
+    const status = response.status
+    const json = await response.json();
     return [status, json];
 }
 
@@ -47,7 +47,7 @@ function kNumber(number) {
 }
 
 function removeNullValuesFromObject(object) {
-    let newObject = {};
+    const newObject = {};
     Object.entries(object).forEach(([k, v]) => {
         if (v !== null) {
             newObject[k] = v;
@@ -61,8 +61,8 @@ function setCookie(key, value) {
 }
 
 function getCookie(key, defaultValue) {
-    for (let cookie of document.cookie.split("; ")) {
-        let data = cookie.split("=", 2);
+    for (const cookie of document.cookie.split("; ")) {
+        const data = cookie.split("=", 2);
         if (data[0] === key) {
             return data[1];
         }

@@ -17,13 +17,13 @@ function showDialog(contentHtml) {
         currentDialog.hide();
     }
 
-    let dialogHtml = getDialogHtml(contentHtml);
-    let dialogElement = parseElement(dialogHtml);
+    const dialogHtml = getDialogHtml(contentHtml);
+    const dialogElement = parseElement(dialogHtml);
     document.body.append(dialogElement);
-    let dialog = new bootstrap.Offcanvas(dialogElement);
+    const dialog = new bootstrap.Offcanvas(dialogElement);
     dialogElement.addEventListener("hidden.bs.offcanvas", event => {
         dialogElement.remove();
-        dialog = null;
+        currentDialog = null;
     });
     dialog.show();
     currentDialog = dialog;

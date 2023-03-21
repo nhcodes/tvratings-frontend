@@ -352,8 +352,14 @@ function onClickViewOn(showId, title) {
     showDialog(getShowLinksHtml(showId, title));
 }
 
+let defaultViewportContent = "width=device-width, initial-scale=1";
+
 function onClickFitScreen() {
     let viewportMeta = document.querySelector("meta[name='viewport']");
-    let tableWidth = document.querySelector("#TABLE_HEATMAP").clientWidth;
-    viewportMeta.content = `width=${tableWidth}`;
+    if (viewportMeta.content === defaultViewportContent) {
+        let tableWidth = Math.round(document.querySelector("#TABLE_HEATMAP").clientWidth * 1.1);
+        viewportMeta.content = `width=${tableWidth}`;
+    } else {
+        viewportMeta.content = defaultViewportContent;
+    }
 }

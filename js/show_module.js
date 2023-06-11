@@ -104,19 +104,16 @@ function getShowLinksHtml(showId, title) {
         },
     ];
     return `
-        <div class="d-flex flex-column">
-            <span class="text-center my-2">view on:</span>
-            <div class="list-group list-group-flush">
-                ${loop(sites, (site) => `
-                    <a class="list-group-item list-group-item-action d-flex flex-row" href="${site.url}" target="_blank">
-                        <img class="rounded-circle m-auto" src="${site.image}" alt="favicon" style="width: 32px; height: 32px">
-                        <div class="d-flex flex-column flex-fill ms-3">
-                            <span>${site.name}</span>
-                            <small>${site.description}</small>
-                        </div>
-                    </a>
-                `)}
-            </div>
+        <div class="list-group list-group-flush">
+            ${loop(sites, (site) => `
+                <a class="list-group-item list-group-item-action d-flex flex-row" href="${site.url}" target="_blank">
+                    <img class="rounded-circle m-auto" src="${site.image}" alt="favicon" style="width: 32px; height: 32px">
+                    <div class="d-flex flex-column flex-fill ms-3">
+                        <span>${site.name}</span>
+                        <small>${site.description}</small>
+                    </div>
+                </a>
+            `)}
         </div>
     `;
 }
@@ -349,17 +346,25 @@ function onClickFollow(showId) {
 }
 
 function onClickViewOn(showId, title) {
-    showDialog(getShowLinksHtml(showId, title));
+    showDialog("view on", getShowLinksHtml(showId, title));
 }
 
 const defaultViewportContent = "width=device-width, initial-scale=1";
 
+let fitScreen = false;
+
 function onClickFitScreen() {
-    const viewportMeta = document.querySelector("meta[name='viewport']");
+    /*const viewportMeta = document.querySelector("meta[name='viewport']");
     if (viewportMeta.content === defaultViewportContent) {
         const tableWidth = document.querySelector("#TABLE_HEATMAP").clientWidth + 48;
         viewportMeta.content = `width=${tableWidth}`;
     } else {
         viewportMeta.content = defaultViewportContent;
-    }
+    }*/
+    let heatmapElement = document.querySelector("#TABLE_HEATMAP");
+    fitScreen = !fitScreen;
+    let resizeFactor = fitScreen ? (window.innerWidth / (heatmapElement.clientWidth + 24)) : 1;
+    heatmapElement.style.transform = `scale(${resizeFactor})`;
+    heatmapElement.parentElement.classList.toggle("table-responsive");
+    heatmapElement.style.transformOrigin = "left";
 }

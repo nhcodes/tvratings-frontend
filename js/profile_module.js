@@ -2,9 +2,7 @@
 
 function getLoginHtml() {
     return `
-        <div class="d-flex flex-column mx-auto">
-        
-            <span class="text-center my-2">log in:</span>
+        <div class="d-flex flex-column mx-auto mt-3">
             
             <div class="mb-3">
                 <label class="form-label">email address</label>
@@ -30,21 +28,15 @@ function getLoginHtml() {
 
 function getFollowListHtml(shows) {
     return `
-        <div class="d-flex flex-column">
-        
-            <span class="text-center my-2">followed shows:</span>
-            
-            <div class="list-group list-group-flush">
-                ${loop(shows, (show) => `
-                    <a class="list-group-item list-group-item-action d-flex flex-row align-items-center" href="?showId=${show["showId"]}" target="_blank">
-                        <span class="flex-fill">${show["title"]}</span>
-                        <button class="btn btn-link link-secondary" onclick="follow('${show["showId"]}', false);return false">
-                            <span class="bi bi-x"></span>
-                        </button>
-                    </a>
-                `)}
-            </div>
-            
+        <div class="list-group list-group-flush">
+            ${loop(shows, (show) => `
+                <a class="list-group-item list-group-item-action d-flex flex-row align-items-center" href="?showId=${show["showId"]}" target="_blank">
+                    <span class="flex-fill">${show["title"]}</span>
+                    <button class="btn btn-link link-secondary" onclick="follow('${show["showId"]}', false);return false">
+                        <span class="bi bi-x"></span>
+                    </button>
+                </a>
+            `)}
         </div>
     `;
 }
@@ -56,7 +48,7 @@ const codeRegex = new RegExp("\\w{6}");
 
 function showLogin(showId) {
     const loginHtml = getLoginHtml();
-    const dialogElement = showDialog(loginHtml);
+    const dialogElement = showDialog("login", loginHtml);
 
     const emailInput = dialogElement.querySelector("#INPUT_LOGIN_EMAIL");
     const codeInput = dialogElement.querySelector("#INPUT_LOGIN_CODE");
@@ -153,7 +145,7 @@ function login(email, code, recaptcha, callback) {
 
 function showFollowList(shows) {
     const followListHtml = getFollowListHtml(shows);
-    showDialog(followListHtml);
+    showDialog("followed shows", followListHtml);
 }
 
 function follow(showId, follow) {

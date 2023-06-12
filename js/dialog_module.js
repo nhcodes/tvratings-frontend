@@ -32,7 +32,6 @@ function showDialog(title, contentHtml) {
     const dialog = new bootstrap.Offcanvas(dialogElement);
     dialogElement.addEventListener("hidden.bs.offcanvas", event => {
         dialogElement.remove();
-        currentDialog = null;
     });
     dialog.show();
     currentDialog = dialog;

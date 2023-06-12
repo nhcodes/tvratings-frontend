@@ -4,12 +4,12 @@ function getSearchPageHtml() {
     return `
         <div class="row my-3 mx-1">
         
-            <div class="col-12 col-sm-10 col-md-7 col-xl-7 col-xxl-6 mx-auto p-0">
-                ${getSearchTableHtml()}
+            <div class="col-12 col-sm-10 col-md-5 col-xl-4 col-xxl-2 mx-auto p-0 order-md-last">
+                ${getSearchFiltersHtml()}
             </div>
         
-            <div class="col-12 col-sm-10 col-md-5 col-xl-4 col-xxl-2 mx-auto p-0">
-                ${getSearchFiltersHtml()}
+            <div class="col-12 col-sm-10 col-md-7 col-xl-7 col-xxl-6 mx-auto p-0">
+                ${getSearchTableHtml()}
             </div>
         
         </div>
@@ -103,133 +103,143 @@ function getSearchTableContentHtml(shows, compact) {
 function getSearchFiltersHtml() {
     return `
         <div class="d-flex flex-column shadow-sm rounded-4 m-2 bg-body-tertiary">
-        
-            <h6 class="text-body text-center m-2">filters</h6>
-        
-            <div class="d-flex flex-column p-1">
-            
-                 <!--
-                 <div class="form-floating m-1">
-                     <select class="form-select" onchange="onFilter('type', this.value)">
-                         <option value="shows" selected>shows</option>
-                         <option value="episodes">episodes</option>
-                     </select>
-                     <label>type</label>
-                </div>-->
-            
-                <div class="form-floating m-1">
-                    <input class="form-control" placeholder="search for title" type="text"
-                        oninput="onFilter('titleSearch', this.value)">
-                    <label>search for title</label>
-                </div>
+            <div class="navbar navbar-expand-md p-0">
+                <div class="w-100 m-2">
                 
-                <div class="d-flex flex-row">
-            
-                    <div class="form-floating m-1 w-100">
-                        <input class="form-control" placeholder="min votes" type="number" min="0"
-                            oninput="onFilter('minVotes', this.value)">
-                        <label>min votes</label>
+                    <div class="input-group p-1">
+                    
+                        <div class="form-floating">
+                            <input class="form-control" placeholder="search for title" type="text" oninput="onFilter('titleSearch', this.value)">
+                            <label>search by title</label>
+                        </div>
+                        
+                        <button class="btn btn-outline-secondary navbar-toggler-custom" data-bs-toggle="collapse" data-bs-target="#COLLAPSE_FILTERS">
+                            <span class="bi bi-funnel"></span>
+                        </button>
+                        
                     </div>
                 
-                    <div class="form-floating m-1 w-100">
-                        <input class="form-control" placeholder="max votes" type="number" min="0"
-                            oninput="onFilter('maxVotes', this.value)">
-                        <label>max votes</label>
+                    <div class="collapse navbar-collapse" id="COLLAPSE_FILTERS">
+                
+                        <div class="d-flex flex-column">
+                        
+                             <!--
+                             <div class="form-floating m-1">
+                                 <select class="form-select" onchange="onFilter('type', this.value)">
+                                     <option value="shows" selected>shows</option>
+                                     <option value="episodes">episodes</option>
+                                 </select>
+                                 <label>type</label>
+                            </div>-->
+                            
+                            <div class="d-flex flex-row">
+                        
+                                <div class="form-floating m-1 w-100">
+                                    <input class="form-control" placeholder="min votes" type="number" min="0"
+                                        oninput="onFilter('minVotes', this.value)">
+                                    <label>min votes</label>
+                                </div>
+                            
+                                <div class="form-floating m-1 w-100">
+                                    <input class="form-control" placeholder="max votes" type="number" min="0"
+                                        oninput="onFilter('maxVotes', this.value)">
+                                    <label>max votes</label>
+                                </div>
+                            
+                            </div>
+                            
+                            <div class="d-flex flex-row">
+                        
+                                <div class="form-floating m-1 w-100">
+                                    <input class="form-control" placeholder="min rating" type="number" min="0" max="10"
+                                        oninput="onFilter('minRating', this.value)">
+                                    <label>min rating</label>
+                                </div>
+                            
+                                <div class="form-floating m-1 w-100">
+                                    <input class="form-control" placeholder="max rating" type="number" min="0" max="10"
+                                        oninput="onFilter('maxRating', this.value)">
+                                    <label>max rating</label>
+                                </div>
+                            
+                            </div>
+                            
+                            <div class="d-flex flex-row">
+                        
+                                <div class="form-floating m-1 w-100">
+                                    <input class="form-control" placeholder="min year" type="number" min="1900" max="2100"
+                                        oninput="onFilter('minYear', this.value)">
+                                    <label>min year</label>
+                                </div>
+                            
+                                <div class="form-floating m-1 w-100">
+                                    <input class="form-control" placeholder="max year" type="number" min="1900" max="2100"
+                                        oninput="onFilter('maxYear', this.value)">
+                                    <label>max year</label>
+                                </div>
+                            
+                            </div>
+                            
+                            <div class="d-flex flex-row">
+                        
+                                <div class="form-floating m-1 w-100">
+                                    <input class="form-control" placeholder="min duration" type="number" min="0"
+                                        oninput="onFilter('minDuration', this.value)">
+                                    <label>min duration</label>
+                                </div>
+                            
+                                <div class="form-floating m-1 w-100">
+                                    <input class="form-control" placeholder="max duration" type="number" min="0"
+                                        oninput="onFilter('maxDuration', this.value)">
+                                    <label>max duration</label>
+                                </div>
+                            
+                            </div>
+                            
+                            <div class="d-flex flex-row">
+                            
+                                 <div class="form-floating m-1 w-100">
+                                     <select class="form-select" onchange="onFilter('sortColumn', this.value)">
+                                         <option value="votes" selected>votes</option>
+                                         <option value="rating">rating</option>
+                                         <option value="title">title</option>
+                                         <option value="startYear">year</option>
+                                     </select>
+                                     <label>sort by</label>
+                                </div>
+                            
+                                 <div class="form-floating m-1 w-100">
+                                     <select class="form-select" onchange="onFilter('sortOrder', this.value)">
+                                         <option value="desc" selected>descending</option>
+                                         <option value="asc">ascending</option>
+                                     </select>
+                                     <label>sort order</label>
+                                </div>
+                            
+                            </div>
+                            
+                             <div class="form-floating m-1">
+                                 <select class="form-select" onchange="onChangeView(this.value)">
+                                     <option value="compact" selected>compact</option>
+                                     <option value="detailed">detailed</option>
+                                 </select>
+                                 <label>table view</label>
+                            </div>
+                            
+                            <span class="mx-auto my-2">select genres:</span>
+                            
+                            <div class="d-flex flex-row flex-wrap justify-content-center">
+                                    ${loop(getAllGenres(), (genre) => `
+                                        <button class="btn btn-outline-primary btn-sm m-1" data-bs-toggle="button" onclick="onFilterGenres(this)">${genre}</button>
+                                    `)}
+                            </div>
+                        
+                        </div>
+                        
                     </div>
                 
-                </div>
-                
-                <div class="d-flex flex-row">
-            
-                    <div class="form-floating m-1 w-100">
-                        <input class="form-control" placeholder="min rating" type="number" min="0" max="10"
-                            oninput="onFilter('minRating', this.value)">
-                        <label>min rating</label>
-                    </div>
-                
-                    <div class="form-floating m-1 w-100">
-                        <input class="form-control" placeholder="max rating" type="number" min="0" max="10"
-                            oninput="onFilter('maxRating', this.value)">
-                        <label>max rating</label>
-                    </div>
-                
-                </div>
-                
-                <div class="d-flex flex-row">
-            
-                    <div class="form-floating m-1 w-100">
-                        <input class="form-control" placeholder="min year" type="number" min="1900" max="2100"
-                            oninput="onFilter('minYear', this.value)">
-                        <label>min year</label>
-                    </div>
-                
-                    <div class="form-floating m-1 w-100">
-                        <input class="form-control" placeholder="max year" type="number" min="1900" max="2100"
-                            oninput="onFilter('maxYear', this.value)">
-                        <label>max year</label>
-                    </div>
-                
-                </div>
-                
-                <div class="d-flex flex-row">
-            
-                    <div class="form-floating m-1 w-100">
-                        <input class="form-control" placeholder="min duration" type="number" min="0"
-                            oninput="onFilter('minDuration', this.value)">
-                        <label>min duration</label>
-                    </div>
-                
-                    <div class="form-floating m-1 w-100">
-                        <input class="form-control" placeholder="max duration" type="number" min="0"
-                            oninput="onFilter('maxDuration', this.value)">
-                        <label>max duration</label>
-                    </div>
-                
-                </div>
-                
-                <div class="d-flex flex-row">
-                
-                     <div class="form-floating m-1 w-100">
-                         <select class="form-select" onchange="onFilter('sortColumn', this.value)">
-                             <option value="votes" selected>votes</option>
-                             <option value="rating">rating</option>
-                             <option value="title">title</option>
-                             <option value="startYear">year</option>
-                         </select>
-                         <label>sort by</label>
-                    </div>
-                
-                     <div class="form-floating m-1 w-100">
-                         <select class="form-select" onchange="onFilter('sortOrder', this.value)">
-                             <option value="desc" selected>descending</option>
-                             <option value="asc">ascending</option>
-                         </select>
-                         <label>sort order</label>
-                    </div>
-                
-                </div>
-                
-                 <div class="form-floating m-1">
-                     <select class="form-select" onchange="onChangeView(this.value)">
-                         <option value="compact" selected>compact</option>
-                         <option value="detailed">detailed</option>
-                     </select>
-                     <label>table view</label>
-                </div>
-                
-                <!-- todo form-select w-auto p-2 hacky -->
-                <div class="form-select w-auto p-2 m-1" data-bs-toggle="collapse" data-bs-target="#COLLAPSE_GENRES">select genres</div>
-                
-                <div id="COLLAPSE_GENRES" class="collapse">
-                    <div class="d-flex flex-row flex-wrap justify-content-center">
-                            ${loop(getAllGenres(), (genre) => `
-                                <button class="btn btn-outline-primary btn-sm m-1" data-bs-toggle="button" onclick="onFilterGenres(this)">${genre}</button>
-                            `)}
-                    </div>
-                </div>
-            
+                </div>   
             </div>
-            
         </div>
     `;
 }

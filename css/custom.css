@@ -1,3 +1,5 @@
+/*THEME*/
+
 [data-bs-theme=light] {
     --bs-body-bg: #ffffff;
     --bs-body-bg-rgb: 255, 255, 255;
@@ -11,6 +13,8 @@
     --bs-tertiary-bg: #202124;
     --bs-tertiary-bg-rgb: 32, 33, 36;
 }
+
+/*TABLE*/
 
 .table-transparent {
     --bs-table-bg: transparent;
@@ -28,4 +32,39 @@
     height: var(--cell-size);
 
     padding: 0 !important;
+}
+
+/*NAVBAR*/
+
+/*TODO FIX*/
+
+@media (min-width: 576px) {
+    .navbar-expand-sm .navbar-toggler-custom {
+        pointer-events: none;
+        opacity: 0.5;
+    }
+}
+@media (min-width: 768px) {
+    .navbar-expand-md .navbar-toggler-custom {
+        pointer-events: none;
+        opacity: 0.5;
+    }
+}
+@media (min-width: 992px) {
+    .navbar-expand-lg .navbar-toggler-custom {
+        pointer-events: none;
+        opacity: 0.5;
+    }
+}
+@media (min-width: 1200px) {
+    .navbar-expand-xl .navbar-toggler-custom {
+        pointer-events: none;
+        opacity: 0.5;
+    }
+}
+@media (min-width: 1400px) {
+    .navbar-expand-xxl .navbar-toggler-custom {
+        pointer-events: none;
+        opacity: 0.5;
+    }
 }

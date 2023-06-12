@@ -34,37 +34,39 @@
     padding: 0 !important;
 }
 
-/*NAVBAR*/
-
-/*TODO FIX*/
+/*RESPONSIVE DISABLED*/
 
 @media (min-width: 576px) {
-    .navbar-expand-sm .navbar-toggler-custom {
+    .disabled-sm {
         pointer-events: none;
-        opacity: 0.5;
+        opacity: 0.65;
     }
 }
+
 @media (min-width: 768px) {
-    .navbar-expand-md .navbar-toggler-custom {
+    .disabled-md {
         pointer-events: none;
-        opacity: 0.5;
+        opacity: 0.65;
     }
 }
+
 @media (min-width: 992px) {
-    .navbar-expand-lg .navbar-toggler-custom {
+    .disabled-lg {
         pointer-events: none;
-        opacity: 0.5;
+        opacity: 0.65;
     }
 }
+
 @media (min-width: 1200px) {
-    .navbar-expand-xl .navbar-toggler-custom {
+    .disabled-xl {
         pointer-events: none;
-        opacity: 0.5;
+        opacity: 0.65;
     }
 }
+
 @media (min-width: 1400px) {
-    .navbar-expand-xxl .navbar-toggler-custom {
+    .disabled-xxl {
         pointer-events: none;
-        opacity: 0.5;
+        opacity: 0.65;
     }
 }

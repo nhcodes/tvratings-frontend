@@ -58,7 +58,7 @@ function getSearchTableContentHtml(shows, compact) {
     return `
         ${conditional(shows.length !== 0, `
 
-            <table class="table table-hover m-0">
+            <table class="table table-hover table-transparent m-0">
             
                 <thead>
                     <tr>

@@ -12,6 +12,10 @@
     --bs-tertiary-bg-rgb: 32, 33, 36;
 }
 
+.table-transparent {
+    --bs-table-bg: transparent;
+}
+
 .fixed-size-cell {
     --cell-size: 40px;
 

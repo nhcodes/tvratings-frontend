@@ -26,7 +26,7 @@ function getShowPageHtml(show, episodes) {
                 </div>
                        
                 <div class="table-responsive my-3">
-                    <table id="TABLE_HEATMAP" class="table table-borderless w-auto mx-auto my-0 align-middle">
+                    <table id="TABLE_HEATMAP" class="table table-borderless table-transparent w-auto mx-auto my-0 align-middle">
                     
                         <tr>
                             <th rowspan="999" style="width: 1px;"><small>s e a s o n s</small></th>

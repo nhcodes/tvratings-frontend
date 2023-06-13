@@ -111,7 +111,7 @@ function getSearchFiltersHtml() {
                     <label>search by title</label>
                 </div>
                 
-                <button class="btn btn-outline-secondary disabled-md" data-bs-toggle="collapse" data-bs-target="#COLLAPSE_FILTERS">
+                <button class="btn btn-link link-secondary border disabled-md" data-bs-toggle="collapse" data-bs-target="#COLLAPSE_FILTERS">
                     <span class="bi bi-funnel"></span>
                 </button>
                 

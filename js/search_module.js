@@ -76,8 +76,8 @@ function getSearchTableContentHtml(shows, compact) {
                 <tbody>
                     ${loop(shows, (show) => `
                         <tr>
-                            <td>
-                                <a href="?showId=${show['showId']}" target='_blank' class="d-block text-reset text-decoration-none">${show["title"]}</a>
+                            <td class="p-0">
+                                <a href="?showId=${show['showId']}" target='_blank' class="d-block text-reset text-decoration-none p-2">${show["title"]}</a>
                             </td>
                             <td class="text-end">${kNumber(show["votes"])}</td>
                             <td class="text-end">${show["rating"].toFixed(1)}</td>

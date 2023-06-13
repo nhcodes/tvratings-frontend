@@ -22,6 +22,7 @@ function showFollowListDialog(shows) {
     if(shows !== undefined) {
         const followListHtml = getFollowListHtml(shows);
         showDialog("followed shows", followListHtml);
+        return;
     }
 
     const url = API_URL + "followlist";

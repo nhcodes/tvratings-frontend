@@ -258,9 +258,9 @@ function loadShowModule(showId, contentElement) {
         document.querySelector("meta[name='description']").setAttribute("content", description);
 
         //include title in url
-        const url = new URL(window.location.href);
+        /*const url = new URL(window.location.href);
         url.searchParams.set("title", title.replace(/\W/g, "-"));
-        window.history.replaceState(null, null, url);
+        window.history.replaceState(null, null, url);*/
 
         const showPageHtml = getShowPageHtml(show, episodes);
         const showPageElement = parseElement(showPageHtml);

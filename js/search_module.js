@@ -2,7 +2,7 @@
 
 function getSearchPageHtml() {
     return `
-        <div class="d-flex flex-row flex-wrap flex-fill align-content-start my-3 mx-1">
+        <div class="d-flex flex-row flex-wrap flex-fill justify-content-evenly align-content-start my-3 mx-1">
         
             <div class="col-12 col-sm-10 col-md-5 col-xl-4 col-xxl-2 order-md-last">
                 ${getSearchFiltersHtml()}

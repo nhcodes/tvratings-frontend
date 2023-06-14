@@ -37,9 +37,13 @@ function fetchJsonResponse(url, options, callback) {
 
 let timeout;
 
-function debounce(callback, wait) {
+function debounce(callback, time) {
     clearTimeout(timeout);
-    timeout = setTimeout(callback, wait);
+    if (time <= 0) {
+        callback();
+        return;
+    }
+    timeout = setTimeout(callback, time);
 }
 
 function kNumber(number) {

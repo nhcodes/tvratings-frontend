@@ -217,19 +217,21 @@ function getSearchFiltersHtml() {
                         </div>
                         
                          <div class="form-floating m-1">
+                             <select class="form-select" onchange="onFilter('genres', this.value, 0)">
+                                 <option value="%" selected>all</option> <!-- % means wildcard -->
+                                 ${loop(getAllGenres(), (genre) => `
+                                    <option value="${genre}">${genre}</option>
+                                 `)}
+                             </select>
+                             <label>genre</label>
+                        </div>
+                        
+                         <div class="form-floating m-1">
                              <select class="form-select" onchange="onChangeView(this.value)">
                                  <option value="compact" selected>compact</option>
                                  <option value="detailed">detailed</option>
                              </select>
                              <label>table view</label>
-                        </div>
-                        
-                        <span class="mx-auto my-2">select genres:</span>
-                        
-                        <div class="d-flex flex-row flex-wrap justify-content-center">
-                                ${loop(getAllGenres(), (genre) => `
-                                    <button class="btn btn-outline-primary btn-sm m-1" data-bs-toggle="button" onclick="onFilterGenres(this)">${genre}</button>
-                                `)}
                         </div>
                     
                     </div>
@@ -312,7 +314,7 @@ function getAllGenres() {
 
 // listeners
 
-function onFilter(key, value) {
+function onFilter(key, value, debounceTime = 1000) {
 
     if (value === "") value = null;
     parameters[key] = value;
@@ -323,7 +325,7 @@ function onFilter(key, value) {
         parameters.pageNumber = 0;
         updateSearchTable();
 
-    }, 1000);
+    }, debounceTime);
 }
 
 function onChangeType(element, newType) {
@@ -331,15 +333,6 @@ function onChangeType(element, newType) {
     tab.show();
 
     parameters.type = newType;
-    parameters.pageNumber = 0;
-    updateSearchTable();
-}
-
-function onFilterGenres(element) {
-    const selectedButtons = element.parentElement.parentElement.querySelectorAll(".active");
-    let selectedGenres = Array.from(selectedButtons).map(e => e.innerText);
-    if (selectedGenres.length === 0) selectedGenres = null;
-    parameters.genres = selectedGenres;
     parameters.pageNumber = 0;
     updateSearchTable();
 }

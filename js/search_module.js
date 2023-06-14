@@ -2,13 +2,13 @@
 
 function getSearchPageHtml() {
     return `
-        <div class="row my-3 mx-1">
+        <div class="d-flex flex-row flex-wrap flex-fill align-content-start my-3 mx-1">
         
-            <div class="col-12 col-sm-10 col-md-5 col-xl-4 col-xxl-2 mx-auto p-0 order-md-last">
+            <div class="col-12 col-sm-10 col-md-5 col-xl-4 col-xxl-2 order-md-last">
                 ${getSearchFiltersHtml()}
             </div>
         
-            <div class="col-12 col-sm-10 col-md-7 col-xl-7 col-xxl-6 mx-auto p-0">
+            <div class="col-12 col-sm-10 col-md-7 col-xl-7 col-xxl-6">
                 ${getSearchTableHtml()}
             </div>
         

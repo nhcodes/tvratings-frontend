@@ -16,15 +16,15 @@ function getShowPageHtml(show, episodes) {
     const episodeCount = episodes.length;
 
     return `
-        <div class="row my-5 mx-1">
-            <div class="col-auto shadow-sm rounded-4 mx-auto py-2 px-1 text-center bg-body-tertiary bg-opacity-75">
-                    
+        <div class="d-flex flex-row flex-fill justify-content-center my-5 mx-1">
+            <div class="d-flex flex-column shadow-sm rounded-4 py-2 px-1 text-center bg-body-tertiary bg-opacity-75 overflow-x-hidden">
+                
                 <div class="d-flex flex-column">
                     <h2 class="m-0">${title}</h2>
                     <span>${years}</span>
                     <span>${genres}</span>
                 </div>
-                       
+                
                 <div class="table-responsive my-3">
                     <table id="TABLE_HEATMAP" class="table table-borderless table-transparent w-auto mx-auto my-0 align-middle">
                     
@@ -63,7 +63,7 @@ function getShowPageHtml(show, episodes) {
                     <button class="btn btn-link text-decoration-none"
                      onclick="onClickFitScreen()">fit screen</button>
                 </div>
-                        
+                
             </div>
         </div>
     `;

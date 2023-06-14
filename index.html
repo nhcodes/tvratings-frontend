@@ -26,7 +26,7 @@
 
 <nav id="HEADER" class="navbar bg-body-tertiary">
     <div class="d-flex flex-row align-items-center w-100">
-        <button id="BUTTON_BACK" class="btn btn-lg btn-link link-body-emphasis" title="go back" onclick="goBack()">
+        <button id="BUTTON_BACK" class="btn btn-lg btn-link link-body-emphasis d-none" title="go back" onclick="goBack()">
             <span class="bi bi-arrow-left-circle"></span>
         </button>
         <a class="navbar-brand m-0 flex-fill text-center" href="">tvratin.gs</a>
@@ -92,8 +92,8 @@
 
     const backButtonElement = document.querySelector("#BUTTON_BACK");
 
-    if(showId === null) {
-        backButtonElement.classList.add("d-none");
+    if(showId !== null) {
+        backButtonElement.classList.remove("d-none");
     }
 
     function goBack() {

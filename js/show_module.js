@@ -349,11 +349,11 @@ function onClickViewOn(showId, title) {
     showDialog("view on", getShowLinksHtml(showId, title));
 }
 
-const defaultViewportContent = "width=device-width, initial-scale=1";
+//const defaultViewportContent = "width=device-width, initial-scale=1";
 
 let fitScreen = false;
 
-function onClickFitScreen() {
+function onClickFitScreen() { //todo improve
     /*const viewportMeta = document.querySelector("meta[name='viewport']");
     if (viewportMeta.content === defaultViewportContent) {
         const tableWidth = document.querySelector("#TABLE_HEATMAP").clientWidth + 48;
@@ -361,10 +361,11 @@ function onClickFitScreen() {
     } else {
         viewportMeta.content = defaultViewportContent;
     }*/
-    let heatmapElement = document.querySelector("#TABLE_HEATMAP");
     fitScreen = !fitScreen;
-    let resizeFactor = fitScreen ? (window.innerWidth / (heatmapElement.clientWidth + 24)) : 1;
+    const heatmapElement = document.querySelector("#TABLE_HEATMAP");
+    const heatmapWidth = heatmapElement.offsetWidth + 96;
+    const resizeFactor = fitScreen ? (window.innerWidth / heatmapWidth) : 1;
+    if (resizeFactor > 1) return;
     heatmapElement.style.transform = `scale(${resizeFactor})`;
-    heatmapElement.parentElement.classList.toggle("table-responsive");
-    heatmapElement.style.transformOrigin = "left";
+    heatmapElement.style.transformOrigin = "top left";
 }

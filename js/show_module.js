@@ -26,11 +26,30 @@ function getShowPageHtml(show, episodes) {
                 </div>
                 
                 <div class="table-responsive my-3">
-                    <table id="TABLE_HEATMAP" class="table table-borderless table-transparent w-auto mx-auto my-0 align-middle">
+                    <table id="TABLE_HEATMAP" class="table table-borderless table-transparent m-0 align-middle">
+                    
+                        <style>
+                            td, th {
+                                --cell-size: 40px;
+                                --text-size: 15px;
+                            
+                                min-width: var(--cell-size) !important;
+                                max-width: var(--cell-size) !important;
+                                width: var(--cell-size) !important;
+                            
+                                min-height: var(--cell-size) !important;
+                                max-height: var(--cell-size) !important;
+                                height: var(--cell-size) !important;
+                                
+                                font-size: var(--text-size) !important;
+                            
+                                padding: 0 !important;
+                            }
+                        </style>
                     
                         <tr>
-                            <th rowspan="999" style="width: 1px;"><small>s e a s o n s</small></th>
-                            <th colspan="999"><small>e p i s o d e s</small></th>
+                            <th rowspan="999"><small style="writing-mode: vertical-rl; text-orientation: upright; letter-spacing: 6px">seasons</small></th>
+                            <th colspan="999"><small style="letter-spacing: 10px">episodes</small></th>
                         </tr>
                         
                         ${getHeatmapHtml(episodes)}
@@ -124,7 +143,7 @@ function getCellHtml(episodeId, title, season, episode, rating, votes, year, dur
     const popoverContent = getPopoverHtml(episodeId, title, ratingString, votes, year, duration);
     const cellColor = getCellColor(rating);
     return `
-        <td tabindex="0" role="button" class="fixed-size-cell" style="background-color: ${cellColor}; ${hasBorder ? "border: 2px solid black;" : ""}"
+        <td tabindex="0" role="button" style="background-color: ${cellColor}; ${hasBorder ? "border: 2px solid black;" : ""}"
             data-bs-trigger="focus" data-bs-toggle="popover" data-bs-placement="bottom" data-bs-html="true"
              data-bs-content="${popoverContent}" title="${popoverTitle}">
             <span style="color: black">${ratingString}</span>
@@ -159,6 +178,8 @@ function getCellColor(r) {
     return "hsl(" + h + ",100%," + l + "%)";
 }
 
+let lastColumnCount;
+
 function getHeatmapHtml(episodes) {
     const [minSeasonNumber, maxSeasonNumber, minEpisodeNumber, maxEpisodeNumber, minRatingEpisodeId, maxRatingEpisodeId] =
         calculateStats(episodes);
@@ -167,6 +188,7 @@ function getHeatmapHtml(episodes) {
 
     const rowCount = maxSeasonNumber - minSeasonNumber + 1;
     const columnCount = maxEpisodeNumber - minEpisodeNumber + 1;
+    lastColumnCount = columnCount;
 
     const rowArray = [];
     for (let rowIndex = 0; rowIndex <= rowCount; rowIndex++) {
@@ -182,12 +204,12 @@ function getHeatmapHtml(episodes) {
 
     for (let season = minSeasonNumber; season <= maxSeasonNumber; season++) {
         const rowIndex = season - minSeasonNumber + 1
-        tableArray[rowIndex][0] = `<td class="fixed-size-cell">${season}</td>`;
+        tableArray[rowIndex][0] = `<td>${season}</td>`;
     }
 
     for (let episode = minEpisodeNumber; episode <= maxEpisodeNumber; episode++) {
         const cellIndex = episode - minEpisodeNumber + 1
-        tableArray[0][cellIndex] = `<td class="fixed-size-cell">${episode}</td>`;
+        tableArray[0][cellIndex] = `<td>${episode}</td>`;
     }
 
     //set episode cells
@@ -349,23 +371,29 @@ function onClickViewOn(showId, title) {
     showDialog("view on", getShowLinksHtml(showId, title));
 }
 
-//const defaultViewportContent = "width=device-width, initial-scale=1";
+let fitScreenStyleElement = undefined;
 
-let fitScreen = false;
+function onClickFitScreen() {
 
-function onClickFitScreen() { //todo improve
-    /*const viewportMeta = document.querySelector("meta[name='viewport']");
-    if (viewportMeta.content === defaultViewportContent) {
-        const tableWidth = document.querySelector("#TABLE_HEATMAP").clientWidth + 48;
-        viewportMeta.content = `width=${tableWidth}`;
-    } else {
-        viewportMeta.content = defaultViewportContent;
-    }*/
-    fitScreen = !fitScreen;
+    if(fitScreenStyleElement !== undefined) {
+        fitScreenStyleElement.remove();
+        fitScreenStyleElement = undefined;
+        return;
+    }
+
+    const cellWidth = 100 / (lastColumnCount + 3); //todo viewport includes margin, padding, scrollbarwidth
+    const cellSize = `${cellWidth.toFixed(2)}vw`;
+    const textSize = `${(cellWidth/3).toFixed(2)}vw`;
+    const style = `
+        <style>
+            td, th {
+                --cell-size: ${cellSize};
+                --text-size: ${textSize};
+            }
+        </style>
+    `;
+    fitScreenStyleElement = parseElement(style);
+
     const heatmapElement = document.querySelector("#TABLE_HEATMAP");
-    const heatmapWidth = heatmapElement.offsetWidth + 96;
-    const resizeFactor = fitScreen ? (window.innerWidth / heatmapWidth) : 1;
-    if (resizeFactor > 1) return;
-    heatmapElement.style.transform = `scale(${resizeFactor})`;
-    heatmapElement.style.transformOrigin = "top left";
+    heatmapElement.append(fitScreenStyleElement);
 }

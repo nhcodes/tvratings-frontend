@@ -20,20 +20,6 @@
     --bs-table-bg: transparent;
 }
 
-.fixed-size-cell {
-    --cell-size: 40px;
-
-    min-width: var(--cell-size);
-    max-width: var(--cell-size);
-    width: var(--cell-size);
-
-    min-height: var(--cell-size);
-    max-height: var(--cell-size);
-    height: var(--cell-size);
-
-    padding: 0 !important;
-}
-
 /*RESPONSIVE DISABLED*/
 
 @media (min-width: 576px) {

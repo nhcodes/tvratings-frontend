@@ -33,7 +33,13 @@ Stay up-to-date with your favorite series using the follow feature that notifies
 
 #### Preview
 
+https://github.com/nhcodes/tvratings-frontend/assets/120429276/27627206-1f46-400d-9c4e-b2251fa29168
+
 #### Examples
+
+![game_of_thrones](https://github.com/nhcodes/tvratings-frontend/assets/120429276/5811abe6-4617-48ce-a6df-315595ec8c72)
+
+![breaking_bad](https://github.com/nhcodes/tvratings-frontend/assets/120429276/ae55279e-438a-4af0-aef7-fda199d3e5e5)
 
 ---
 

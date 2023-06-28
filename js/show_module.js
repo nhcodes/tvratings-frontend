@@ -16,7 +16,7 @@ function getShowPageHtml(show, episodes) {
     const episodeCount = episodes.length;
 
     return `
-        <div class="d-flex flex-row flex-fill justify-content-center my-5 mx-1">
+        <div class="d-flex flex-row flex-fill justify-content-center align-items-start my-5 mx-1">
             <div class="d-flex flex-column shadow-sm rounded-4 py-2 px-1 text-center bg-body-tertiary bg-opacity-75 overflow-x-hidden">
                 
                 <div class="d-flex flex-column">
